@@ -1,4 +1,4 @@
-import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase } from 'lucide-react';
+import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2 } from 'lucide-react';
 
 export interface Role {
   name: string;
@@ -178,6 +178,32 @@ export const csHierarchyData: CSHierarchy[] = [
         skills: ['Vulnerability Assessment', 'Exploitation Techniques', 'Social Engineering', 'Reverse Engineering'],
         tools: ['Kali Linux', 'Burp Suite', 'OWASP ZAP', 'John the Ripper'],
         careerPath: 'Pentester -> Senior Pentester -> Red Team Lead / Security Consultant',
+      },
+    ],
+  },
+  {
+    id: 'cn',
+    field: 'Computer Networking',
+    icon: Network,
+    description: 'The study and practice of designing, building, and operating computer networks that allow computers to exchange data.',
+    subfields: [
+      {
+        name: 'Network Architecture',
+        icon: GitBranch,
+        description: 'Designing the overall structure and framework of a computer network to meet business needs.',
+        roles: [{ name: 'Network Architect', responsibilities: 'Creates high-level network designs, plans for future growth, and selects technologies.' }, { name: 'Solutions Architect', responsibilities: 'Designs and implements complex IT solutions that often include a significant networking component.' }],
+        skills: ['TCP/IP Suite', 'Routing Protocols (BGP, OSPF)', 'LAN/WAN Design', 'Cloud Networking (AWS, Azure)', 'Network Security Principles'],
+        tools: ['Cisco IOS', 'Juniper Junos', 'GNS3', 'Wireshark', 'Lucidchart'],
+        careerPath: 'Network Engineer -> Senior Network Engineer -> Network Architect',
+      },
+      {
+        name: 'Network Administration',
+        icon: Settings2,
+        description: 'Managing and maintaining network infrastructure to ensure performance, reliability, and security.',
+        roles: [{ name: 'Network Administrator', responsibilities: 'Configures, manages, and troubleshoots network hardware and software.' }, { name: 'Systems Administrator', responsibilities: 'Manages multi-user computing environments, which includes network administration tasks.' }],
+        skills: ['Network Monitoring', 'Troubleshooting', 'Firewall Configuration', 'User Access Control', 'Scripting (Bash, Python)'],
+        tools: ['Nagios', 'Zabbix', 'PuTTY', 'pfSense', 'Active Directory'],
+        careerPath: 'IT Support -> Network Administrator -> Senior Network Administrator / IT Manager',
       },
     ],
   },
