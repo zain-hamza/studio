@@ -28,7 +28,7 @@ export function CSHierarchy({ data }: CSHierarchyProps) {
           </AccordionTrigger>
           <AccordionContent className="p-4 bg-background">
             <p className="mb-6 text-muted-foreground">{item.description}</p>
-             <Accordion type="multiple" className="w-full space-y-4">
+             <Accordion type="single" collapsible className="w-full space-y-4">
                {item.subfields.map((subfield) => (
                 <AccordionItem value={subfield.name} key={subfield.name} className="border rounded-lg overflow-hidden bg-card shadow-sm transition-all hover:shadow-md">
                    <FieldCard subfield={subfield} />
