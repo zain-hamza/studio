@@ -1,4 +1,4 @@
-import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan, Landmark, Component, Sigma, Orbit, FunctionSquare, FlaskConical, Link, FileText, CandlestickChart, Dna, Microscope } from 'lucide-react';
+import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan, Landmark, Component, Sigma, Orbit, FunctionSquare, FlaskConical, Link, FileText, CandlestickChart, Dna, Microscope, Gamepad2, Puzzle, Package, Beaker, Wind, Replace } from 'lucide-react';
 
 export interface Role {
   name: string;
@@ -397,6 +397,58 @@ const allCsFields: CSHierarchy[] = [
       },
     ],
   },
+  {
+    id: 'gamedev',
+    field: 'Game Development',
+    icon: Gamepad2,
+    description: 'The art and science of creating interactive entertainment, from indie games to AAA titles.',
+    subfields: [
+      {
+        name: 'Gameplay Programming',
+        icon: Puzzle,
+        description: "Writing the code that defines the game's rules, character actions, and overall player experience.",
+        roles: [{ name: 'Gameplay Programmer', responsibilities: 'Implements game features, mechanics, and player interactions.' }, { name: 'Game Systems Designer', responsibilities: 'Designs and programs core systems like AI, physics, or UI.' }],
+        skills: ["C++", "C#", "Game Logic", "Physics", "AI for games"],
+        tools: ["Unity", "Unreal Engine", "Godot", "Visual Studio"],
+        careerPath: 'Junior Programmer -> Gameplay Programmer -> Lead Programmer -> Technical Director.',
+      },
+      {
+        name: 'Game Engine Development',
+        icon: Package,
+        description: 'Building the core technology and tools that power the creation of video games, including rendering, physics, and audio systems.',
+        roles: [{ name: 'Engine Programmer', responsibilities: 'Develops and maintains the core game engine.' }, { name: 'Tools Programmer', responsibilities: 'Creates tools for designers and artists to build the game with.' }],
+        skills: ["Advanced C++", "Graphics APIs (Vulkan, DirectX)", "Performance Optimization", "Systems Architecture"],
+        tools: ["Visual Studio", "RenderDoc", "Tracy Profiler", "Custom Engine Tools"],
+        careerPath: 'Engine Programmer -> Senior Engine Programmer -> Graphics Architect.',
+      },
+    ]
+  },
+  {
+    id: 'scicomp',
+    field: 'Scientific Computing',
+    icon: Beaker,
+    description: 'Using computational methods and models to analyze and solve complex problems in science and engineering.',
+    subfields: [
+      {
+        name: 'High-Performance Computing (HPC)',
+        icon: Wind,
+        description: 'Designing and using supercomputers and parallel processing techniques to run large-scale simulations and data analyses.',
+        roles: [{ name: 'HPC Engineer', responsibilities: 'Manages and optimizes software for supercomputing environments.' }, { name: 'Computational Scientist', responsibilities: 'Uses HPC to conduct research in a specific scientific domain.' }],
+        skills: ["C++", "Fortran", "Parallel Programming (MPI, OpenMP)", "CUDA", "Linux"],
+        tools: ["Slurm", "Supercomputer clusters", "Profiling tools (e.g., VTune)"],
+        careerPath: 'Research Software Engineer -> HPC Specialist -> Lead Computational Scientist.',
+      },
+      {
+        name: 'Computational Modeling & Simulation',
+        icon: Replace,
+        description: 'Creating computer models to simulate natural phenomena or engineered systems, from weather patterns to molecular interactions.',
+        roles: [{ name: 'Simulation Engineer', responsibilities: 'Develops and runs simulations to test and analyze systems.' }, { name: 'Research Scientist', responsibilities: 'Creates computational models to test scientific hypotheses.' }],
+        skills: ["Numerical Methods", "Differential Equations", "Physics/Chemistry/Biology", "Domain-specific knowledge"],
+        tools: ["MATLAB/Simulink", "COMSOL", "ANSYS", "Python (SciPy, NumPy)"],
+        careerPath: 'Simulation Analyst -> Senior Scientist -> Research Director.',
+      },
+    ]
+  },
 ];
 
 
@@ -413,13 +465,13 @@ export const csParentCategoriesData: ParentCategory[] = [
     name: 'Software & Applications',
     icon: Component,
     description: 'The design, development, and interaction paradigms of software that people use every day.',
-    fields: allCsFields.filter(f => ['swe', 'hci'].includes(f.id)),
+    fields: allCsFields.filter(f => ['swe', 'hci', 'gamedev'].includes(f.id)),
   },
     {
     id: 'intelligence',
     name: 'Data, AI & Robotics',
     icon: Sigma,
     description: 'Creating intelligent systems that can learn from data, perceive the world, and interact with the physical environment.',
-    fields: allCsFields.filter(f => ['ai', 'ds', 'cgv', 'robotics', 'bioinfo'].includes(f.id)),
+    fields: allCsFields.filter(f => ['ai', 'ds', 'cgv', 'robotics', 'bioinfo', 'scicomp'].includes(f.id)),
   },
 ];
