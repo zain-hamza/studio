@@ -17,7 +17,7 @@ export function CSHierarchy({ data }: CSHierarchyProps) {
   }
 
   return (
-    <Accordion type="multiple" className="w-full">
+    <Accordion type="single" collapsible className="w-full">
       {data.map((item) => (
         <AccordionItem value={item.id} key={item.id}>
           <AccordionTrigger className="text-xl hover:no-underline font-headline bg-card p-4 rounded-lg transition-all hover:bg-secondary">
