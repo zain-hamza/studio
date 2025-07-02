@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Layers3, BrainCircuit } from 'lucide-react';
+import { Layers3, BrainCircuit, Network } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from './ui/button';
 
@@ -22,7 +22,10 @@ export function Header() {
                 </Link>
              </Button>
              <Button variant="ghost" asChild>
-                <Link href="#hierarchy">Hierarchy</Link>
+                <Link href="#hierarchy">
+                  <Network />
+                  Hierarchy
+                </Link>
              </Button>
             <ThemeToggle />
           </nav>
