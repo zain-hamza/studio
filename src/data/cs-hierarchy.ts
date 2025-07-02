@@ -1,4 +1,4 @@
-import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan } from 'lucide-react';
+import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan, Landmark, Component, Sigma } from 'lucide-react';
 
 export interface Role {
   name: string;
@@ -23,7 +23,15 @@ export interface CSHierarchy {
   subfields: Subfield[];
 }
 
-export const csHierarchyData: CSHierarchy[] = [
+export interface ParentCategory {
+  id: string;
+  name: string;
+  icon: LucideIcon;
+  description: string;
+  fields: CSHierarchy[];
+}
+
+const allCsFields: CSHierarchy[] = [
   {
     id: 'tcs',
     field: 'Theoretical Computer Science',
@@ -310,5 +318,30 @@ export const csHierarchyData: CSHierarchy[] = [
         careerPath: 'Perception Engineer -> Senior Perception Scientist -> Head of Autonomous Systems',
       },
     ],
+  },
+];
+
+
+export const csParentCategoriesData: ParentCategory[] = [
+  {
+    id: 'foundations',
+    name: 'Foundations & Systems',
+    icon: Landmark,
+    description: 'The core principles and infrastructure of computing, from theoretical limits to the large-scale systems that power the digital world.',
+    fields: allCsFields.filter(f => ['tcs', 'csys', 'cn', 'cyber'].includes(f.id)),
+  },
+  {
+    id: 'software',
+    name: 'Software & Applications',
+    icon: Component,
+    description: 'The design, development, and interaction paradigms of software that people use every day.',
+    fields: allCsFields.filter(f => ['swe', 'hci'].includes(f.id)),
+  },
+    {
+    id: 'intelligence',
+    name: 'Data, AI & Robotics',
+    icon: Sigma,
+    description: 'Creating intelligent systems that can learn from data, perceive the world, and interact with the physical environment.',
+    fields: allCsFields.filter(f => ['ai', 'ds', 'cgv', 'robotics'].includes(f.id)),
   },
 ];

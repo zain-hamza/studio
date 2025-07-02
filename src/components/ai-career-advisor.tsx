@@ -38,7 +38,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { csHierarchyData } from '@/data/cs-hierarchy';
+import { csParentCategoriesData } from '@/data/cs-hierarchy';
 import { useToast } from '@/hooks/use-toast';
 import { getCareerAdviceAction } from '@/app/actions';
 import { type CareerSuggestionsOutput } from '@/ai/flows/ai-career-advisor';
@@ -53,6 +53,8 @@ const formSchema = z.object({
 });
 
 type FormData = z.infer<typeof formSchema>;
+
+const allDisciplines = csParentCategoriesData.flatMap(parent => parent.fields);
 
 export default function AICareerAdvisor() {
   const [isLoading, setIsLoading] = useState(false);
@@ -122,7 +124,7 @@ export default function AICareerAdvisor() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {csHierarchyData.map((category) => (
+                        {allDisciplines.map((category) => (
                           <SelectItem key={category.id} value={category.field}>
                             {category.field}
                           </SelectItem>

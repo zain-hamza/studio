@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { csHierarchyData, type CSHierarchy } from '@/data/cs-hierarchy';
+import { csParentCategoriesData, type ParentCategory, type CSHierarchy } from '@/data/cs-hierarchy';
 import { Header } from '@/components/header';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
@@ -13,66 +13,61 @@ export default function Home() {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) {
-      return csHierarchyData;
+      return csParentCategoriesData;
     }
 
     const lowercasedFilter = searchTerm.toLowerCase();
 
-    const filterNode = (node: CSHierarchy): CSHierarchy | null => {
-      const isMatch =
-        node.field.toLowerCase().includes(lowercasedFilter) ||
-        node.description.toLowerCase().includes(lowercasedFilter);
+    return csParentCategoriesData
+      .map((parent) => {
+        const matchingFields = parent.fields
+          .map((field) => {
+            const matchingSubfields = field.subfields.filter(
+              (subfield) =>
+                subfield.name.toLowerCase().includes(lowercasedFilter) ||
+                subfield.description.toLowerCase().includes(lowercasedFilter) ||
+                subfield.roles.some((role) =>
+                  role.name.toLowerCase().includes(lowercasedFilter)
+                ) ||
+                subfield.skills.some((skill) =>
+                  skill.toLowerCase().includes(lowercasedFilter)
+                ) ||
+                subfield.tools.some((tool) =>
+                  tool.toLowerCase().includes(lowercasedFilter)
+                )
+            );
 
-      const filteredSubfields = node.subfields.filter(
-        (subfield) =>
-          subfield.name.toLowerCase().includes(lowercasedFilter) ||
-          subfield.description.toLowerCase().includes(lowercasedFilter) ||
-          subfield.roles.some((role) =>
-            role.name.toLowerCase().includes(lowercasedFilter)
-          ) ||
-          subfield.skills.some((skill) =>
-            skill.toLowerCase().includes(lowercasedFilter)
-          ) ||
-          subfield.tools.some((tool) =>
-            tool.toLowerCase().includes(lowercasedFilter)
-          )
-      );
+            const fieldItselfMatches =
+              field.field.toLowerCase().includes(lowercasedFilter) ||
+              field.description.toLowerCase().includes(lowercasedFilter);
 
-      if (isMatch || filteredSubfields.length > 0) {
-        return {
-          ...node,
-          subfields: filteredSubfields.length > 0 ? filteredSubfields : node.subfields, // show all subfields if parent matches
-        };
-      }
+            if (matchingSubfields.length > 0 || fieldItselfMatches) {
+              return {
+                ...field,
+                subfields: fieldItselfMatches
+                  ? field.subfields
+                  : matchingSubfields,
+              };
+            }
+            return null;
+          })
+          .filter(Boolean) as CSHierarchy[];
 
-      return null;
-    };
-    
-    const results = csHierarchyData.map(filterNode).filter(Boolean) as CSHierarchy[];
+        const parentItselfMatches =
+          parent.name.toLowerCase().includes(lowercasedFilter) ||
+          parent.description.toLowerCase().includes(lowercasedFilter);
 
-    // A second pass to filter main categories if none of their children match and they don't match themselves
-    return results.filter(node => {
-      const parentMatch = node.field.toLowerCase().includes(lowercasedFilter) ||
-        node.description.toLowerCase().includes(lowercasedFilter);
-      
-      const childrenMatch = node.subfields.some(subfield => 
-          subfield.name.toLowerCase().includes(lowercasedFilter) ||
-          subfield.description.toLowerCase().includes(lowercasedFilter) ||
-          subfield.roles.some((role) =>
-            role.name.toLowerCase().includes(lowercasedFilter)
-          ) ||
-          subfield.skills.some((skill) =>
-            skill.toLowerCase().includes(lowercasedFilter)
-          ) ||
-          subfield.tools.some((tool) =>
-            tool.toLowerCase().includes(lowercasedFilter)
-          )
-      );
-      
-      return parentMatch || childrenMatch;
-    });
-
+        if (matchingFields.length > 0 || parentItselfMatches) {
+          return {
+            ...parent,
+            fields: parentItselfMatches ? parent.fields : matchingFields,
+          };
+        }
+        return null;
+      })
+      .filter(Boolean) as ParentCategory[];
   }, [searchTerm]);
+
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
