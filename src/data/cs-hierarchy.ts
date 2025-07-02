@@ -1,4 +1,4 @@
-import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2 } from 'lucide-react';
+import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan } from 'lucide-react';
 
 export interface Role {
   name: string;
@@ -204,6 +204,110 @@ export const csHierarchyData: CSHierarchy[] = [
         skills: ['Network Monitoring', 'Troubleshooting', 'Firewall Configuration', 'User Access Control', 'Scripting (Bash, Python)'],
         tools: ['Nagios', 'Zabbix', 'PuTTY', 'pfSense', 'Active Directory'],
         careerPath: 'IT Support -> Network Administrator -> Senior Network Administrator / IT Manager',
+      },
+    ],
+  },
+  {
+    id: 'csys',
+    field: 'Computer Systems',
+    icon: HardDrive,
+    description: 'The design, implementation, and analysis of the fundamental components of computer systems.',
+    subfields: [
+      {
+        name: 'Operating Systems',
+        icon: Cog,
+        description: 'Developing the core software that manages all the hardware and software resources of a computer.',
+        roles: [{ name: 'OS Developer', responsibilities: 'Designs and develops low-level system software and kernels.' }, { name: 'Kernel Engineer', responsibilities: 'Works specifically on the core of the operating system.' }],
+        skills: ['C/C++', 'Assembly', 'Kernel Architecture', 'Concurrency', 'Memory Management'],
+        tools: ['GDB', 'Linux Kernel Source', 'QEMU', 'Make'],
+        careerPath: 'Kernel Developer -> Senior Systems Programmer -> OS Architect',
+      },
+      {
+        name: 'Distributed Systems',
+        icon: Share2,
+        description: 'Designing systems composed of multiple autonomous computers that communicate and coordinate their actions by passing messages.',
+        roles: [{ name: 'Distributed Systems Engineer', responsibilities: 'Builds scalable and fault-tolerant systems.' }, { name: 'Site Reliability Engineer (SRE)', responsibilities: 'Focuses on reliability, scalability, and performance of large-scale systems.' }],
+        skills: ['Concurrency', 'Fault Tolerance', 'Consensus Algorithms (Paxos, Raft)', 'Networking', 'Cloud Computing'],
+        tools: ['Go', 'Rust', 'Kubernetes', 'gRPC', 'Zookeeper'],
+        careerPath: 'Backend Engineer -> Senior Distributed Systems Engineer -> Principal Engineer',
+      },
+    ],
+  },
+  {
+    id: 'cgv',
+    field: 'Computer Graphics & Vision',
+    icon: Camera,
+    description: 'The study of how computers can generate images and interpret visual information from the real world.',
+    subfields: [
+      {
+        name: 'Computer Graphics',
+        icon: Image,
+        description: 'Creating photorealistic and stylized images and animations using computer algorithms.',
+        roles: [{ name: 'Graphics Engineer', responsibilities: 'Develops rendering engines and tools for games and film.' }, { name: 'VFX Artist', responsibilities: 'Creates visual effects for movies and games.' }],
+        skills: ['Linear Algebra', 'C++', 'OpenGL/Vulkan/DirectX', 'Shader Programming (GLSL/HLSL)'],
+        tools: ['Unity', 'Unreal Engine', 'Blender', 'Houdini'],
+        careerPath: 'Junior Graphics Programmer -> Senior Graphics Engineer -> Rendering Lead',
+      },
+      {
+        name: 'Computer Vision',
+        icon: ScanEye,
+        description: 'Teaching computers to "see" and understand the visual world.',
+        roles: [{ name: 'Computer Vision Engineer', responsibilities: 'Builds systems for image recognition, object detection, and scene understanding.' }, { name: 'Machine Learning Scientist (Vision)', responsibilities: 'Researches new models for visual data analysis.' }],
+        skills: ['Image Processing', 'Deep Learning', 'OpenCV', 'Python', 'Sensor Data'],
+        tools: ['PyTorch/TensorFlow', 'OpenCV', 'CUDA', 'MATLAB'],
+        careerPath: 'CV Engineer -> Senior CV Scientist -> Director of Vision R&D',
+      },
+    ],
+  },
+  {
+    id: 'hci',
+    field: 'Human-Computer Interaction',
+    icon: MousePointerClick,
+    description: 'Designing and studying the interaction between humans and computer systems to create intuitive and effective user experiences.',
+    subfields: [
+      {
+        name: 'User Experience (UX) Design',
+        icon: PenTool,
+        description: 'Focusing on the overall experience of a person using a product, such as a website or app.',
+        roles: [{ name: 'UX Designer', responsibilities: 'Creates user-friendly and intuitive product interfaces.' }, { name: 'UX Researcher', responsibilities: 'Studies user behavior to inform design decisions.' }],
+        skills: ['User Research', 'Wireframing', 'Prototyping', 'Usability Testing', 'Information Architecture'],
+        tools: ['Figma', 'Sketch', 'Adobe XD', 'UserTesting.com', 'Maze'],
+        careerPath: 'Junior UX Designer -> Senior UX Designer -> UX Lead/Manager',
+      },
+      {
+        name: 'Accessibility (a11y)',
+        icon: Accessibility,
+        description: 'Ensuring that technology is usable by people with the widest possible range of abilities.',
+        roles: [{ name: 'Accessibility Specialist', responsibilities: 'Audits and remediates products to meet accessibility standards.' }, { name: 'Frontend Developer (a11y focus)', responsibilities: 'Builds inclusive interfaces from the ground up.' }],
+        skills: ['WCAG Standards', 'ARIA', 'Semantic HTML', 'Assistive Technology Testing'],
+        tools: ['axe-core', 'WAVE', 'Screen Readers (JAWS, NVDA, VoiceOver)', 'Lighthouse'],
+        careerPath: 'Accessibility Tester -> Accessibility Engineer -> Head of Accessibility',
+      },
+    ],
+  },
+  {
+    id: 'robotics',
+    field: 'Robotics',
+    icon: Bot,
+    description: 'An interdisciplinary field that integrates computer science and engineering to design, construct, operate, and use robots.',
+    subfields: [
+      {
+        name: 'Control Systems',
+        icon: CircuitBoard,
+        description: 'Developing algorithms to control the movement and actions of robots.',
+        roles: [{ name: 'Controls Engineer', responsibilities: 'Designs algorithms for robot motion and behavior.' }, { name: 'Robotics Software Engineer', responsibilities: 'Implements software for robotic systems.' }],
+        skills: ['Control Theory', 'C++', 'Python', 'Kinematics', 'Dynamics'],
+        tools: ['ROS (Robot Operating System)', 'MATLAB/Simulink', 'Gazebo'],
+        careerPath: 'Robotics Engineer -> Senior Controls Engineer -> Robotics Research Scientist',
+      },
+      {
+        name: 'Robot Perception',
+        icon: Scan,
+        description: 'Enabling robots to interpret data from sensors (like cameras and LiDAR) to understand their environment.',
+        roles: [{ name: 'Perception Engineer', responsibilities: 'Develops algorithms for sensor data processing.' }, { name: 'Computer Vision Engineer (Robotics)', responsibilities: 'Specializes in visual perception for robots.' }],
+        skills: ['Sensor Fusion', 'SLAM Algorithms', 'Computer Vision', 'Machine Learning', 'Point Cloud Processing'],
+        tools: ['ROS', 'OpenCV', 'PCL (Point Cloud Library)', 'TensorFlow/PyTorch'],
+        careerPath: 'Perception Engineer -> Senior Perception Scientist -> Head of Autonomous Systems',
       },
     ],
   },
