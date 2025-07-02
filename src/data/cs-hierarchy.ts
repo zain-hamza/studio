@@ -1,4 +1,4 @@
-import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan, Landmark, Component, Sigma } from 'lucide-react';
+import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan, Landmark, Component, Sigma, Orbit, FunctionSquare, FlaskConical, Link, FileText, CandlestickChart, Dna, Microscope } from 'lucide-react';
 
 export interface Role {
   name: string;
@@ -319,6 +319,84 @@ const allCsFields: CSHierarchy[] = [
       },
     ],
   },
+   {
+    id: 'qc',
+    field: 'Quantum Computing',
+    icon: Orbit,
+    description: 'Harnessing the principles of quantum mechanics to build powerful new types of computers.',
+    subfields: [
+      {
+        name: 'Quantum Algorithms',
+        icon: FunctionSquare,
+        description: 'Designing algorithms that leverage quantum phenomena like superposition and entanglement to solve problems intractable for classical computers.',
+        roles: [{ name: 'Quantum Algorithm Researcher', responsibilities: 'Develops and analyzes novel quantum algorithms for optimization, simulation, and cryptography.' }],
+        skills: ["Quantum Mechanics", "Linear Algebra", "Complexity Theory", "Shor's Algorithm", "Grover's Algorithm"],
+        tools: ["Qiskit (IBM)", "Cirq (Google)", "Python", "LaTeX"],
+        careerPath: 'PhD Researcher -> Post-doc -> Quantum Research Scientist at a tech company or national lab.',
+      },
+      {
+        name: 'Quantum Hardware',
+        icon: Cpu,
+        description: 'Engineering the physical devices and qubits that form the basis of quantum computers.',
+        roles: [{ name: 'Quantum Hardware Engineer', responsibilities: 'Designs, fabricates, and tests quantum processors and related hardware components.' }],
+        skills: ["Superconducting circuits", "Ion traps", "Photonics", "Cryogenics", "Electrical Engineering"],
+        tools: ["CAD software", "Lab equipment (oscilloscopes, signal generators)", "Python for control systems"],
+        careerPath: 'Hardware Engineer -> Senior Quantum Engineer -> Lead Hardware Architect.',
+      },
+    ],
+  },
+  {
+    id: 'bioinfo',
+    field: 'Bioinformatics',
+    icon: Microscope,
+    description: 'Using computation to store, analyze, and interpret biological data, especially genomic and proteomic data.',
+    subfields: [
+      {
+        name: 'Computational Genomics',
+        icon: Dna,
+        description: 'Analyzing DNA and RNA sequences to understand gene function, evolution, and disease.',
+        roles: [{ name: 'Computational Biologist', responsibilities: 'Analyzes genomic datasets to identify mutations, study gene expression, and understand genetic diseases.' }, { name: 'Genomics Data Scientist', responsibilities: 'Applies data science techniques to large-scale genomic data.' }],
+        skills: ["Genomics", "Statistics", "Python/R", "Next-Generation Sequencing (NGS) data analysis", "Algorithms"],
+        tools: ["Bioconductor", "GATK", "SAMtools", "BLAST", "UCSC Genome Browser"],
+        careerPath: 'Bioinformatics Analyst -> Computational Scientist -> Principal Investigator / Director of Bioinformatics.',
+      },
+      {
+        name: 'Proteomics & Drug Discovery',
+        icon: FlaskConical,
+        description: 'Studying proteins and their interactions, often with the goal of designing new drugs and therapies.',
+        roles: [{ name: 'Cheminformatics Specialist', responsibilities: 'Uses computational models to simulate protein structures and predict how drugs will interact with them.' }, { name: 'Computational Chemist', responsibilities: 'Applies chemistry and computer science to solve problems in drug discovery.' }],
+        skills: ["Structural Biology", "Molecular Dynamics", "Machine Learning", "Chemistry", "Statistics"],
+        tools: ["PyMOL", "GROMACS", "Schrödinger Suite", "RDKit"],
+        careerPath: 'Computational Chemist -> Senior Scientist -> Director of Computational Drug Discovery.',
+      },
+    ],
+  },
+  {
+    id: 'blockchain',
+    field: 'Blockchain & Web3',
+    icon: Link,
+    description: 'Developing decentralized applications and systems using blockchain technology and cryptography.',
+    subfields: [
+      {
+        name: 'Smart Contract Development',
+        icon: FileText,
+        description: 'Writing, testing, and deploying self-executing contracts on a blockchain.',
+        roles: [{ name: 'Smart Contract Developer', responsibilities: 'Builds the backend logic for decentralized applications (dApps) using smart contracts.' }, { name: 'Blockchain Engineer', responsibilities: 'Works on the core blockchain protocol itself or complex dApps.' }],
+        skills: ["Solidity", "Rust", "Cryptography", "Testing Frameworks", "Gas Optimization"],
+        tools: ["Ethereum", "Hardhat", "Truffle", "Remix IDE", "OpenZeppelin"],
+        careerPath: 'Smart Contract Dev -> Senior Blockchain Dev -> Protocol Architect.',
+      },
+      {
+        name: 'Decentralized Finance (DeFi)',
+        icon: CandlestickChart,
+        description: 'Building and analyzing open, permissionless financial systems on the blockchain.',
+        roles: [{ name: 'DeFi Protocol Developer', responsibilities: 'Designs and implements protocols for lending, trading, and other financial services on-chain.' }, { name: 'Quantitative Analyst (Crypto)', responsibilities: 'Models risk and develops trading strategies for digital assets.' }],
+        skills: ["Economics", "Game Theory", "Solidity", "Financial Modeling", "Security Auditing"],
+        tools: ["Uniswap", "Aave", "Compound", "TheGraph", "Dune Analytics"],
+        careerPath: 'DeFi Developer -> Quant Researcher -> Head of Protocol.',
+      },
+    ],
+  },
 ];
 
 
@@ -328,7 +406,7 @@ export const csParentCategoriesData: ParentCategory[] = [
     name: 'Foundations & Systems',
     icon: Landmark,
     description: 'The core principles and infrastructure of computing, from theoretical limits to the large-scale systems that power the digital world.',
-    fields: allCsFields.filter(f => ['tcs', 'csys', 'cn', 'cyber'].includes(f.id)),
+    fields: allCsFields.filter(f => ['tcs', 'csys', 'cn', 'cyber', 'qc', 'blockchain'].includes(f.id)),
   },
   {
     id: 'software',
@@ -342,6 +420,6 @@ export const csParentCategoriesData: ParentCategory[] = [
     name: 'Data, AI & Robotics',
     icon: Sigma,
     description: 'Creating intelligent systems that can learn from data, perceive the world, and interact with the physical environment.',
-    fields: allCsFields.filter(f => ['ai', 'ds', 'cgv', 'robotics'].includes(f.id)),
+    fields: allCsFields.filter(f => ['ai', 'ds', 'cgv', 'robotics', 'bioinfo'].includes(f.id)),
   },
 ];
