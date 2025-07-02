@@ -4,7 +4,7 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { type Subfield } from '@/data/cs-hierarchy';
-import { Briefcase, Wrench, GraduationCap, TrendingUp, ChevronDown } from 'lucide-react';
+import { Briefcase, Wrench, GraduationCap, TrendingUp } from 'lucide-react';
 
 
 interface FieldCardProps {
@@ -13,17 +13,14 @@ interface FieldCardProps {
 
 export function FieldCard({ subfield }: FieldCardProps) {
   return (
-    <div className="border rounded-lg overflow-hidden bg-card shadow-sm transition-all hover:shadow-md">
+    <>
       <AccordionTrigger className="p-4 text-left hover:no-underline w-full">
-        <div className="flex items-center gap-3 w-full justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full">
             <subfield.icon className="h-6 w-6 text-accent" />
             <div className="flex-grow">
               <h3 className="font-semibold text-lg">{subfield.name}</h3>
               <p className="text-sm text-muted-foreground">{subfield.description}</p>
             </div>
-          </div>
-          <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-200" />
         </div>
       </AccordionTrigger>
       <AccordionContent className="p-6 bg-secondary/50">
@@ -71,6 +68,6 @@ export function FieldCard({ subfield }: FieldCardProps) {
           </div>
         </div>
       </AccordionContent>
-    </div>
+    </>
   );
 }
