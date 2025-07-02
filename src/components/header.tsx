@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Layers3 } from 'lucide-react';
+import { Layers3, BrainCircuit } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from './ui/button';
 
@@ -16,7 +16,10 @@ export function Header() {
         <div className="flex flex-1 items-center justify-end space-x-2">
            <nav className="flex items-center space-x-2">
              <Button variant="ghost" asChild>
-                <Link href="#ai-advisor">AI Advisor</Link>
+                <Link href="#ai-advisor">
+                  <BrainCircuit />
+                  AI Advisor
+                </Link>
              </Button>
              <Button variant="ghost" asChild>
                 <Link href="#hierarchy">Hierarchy</Link>
