@@ -13,14 +13,14 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const CareerSuggestionsInputSchema = z.object({
-  discipline: z.string().describe('The specific computer science discipline the user is interested in.'),
+  discipline: z.string().describe('The computer science discipline the user is interested in. Can be "Any".'),
   interests: z.string().describe('A brief description of the user\'s interests and skills.'),
 });
 
 export type CareerSuggestionsInput = z.infer<typeof CareerSuggestionsInputSchema>;
 
 const CareerSuggestionsOutputSchema = z.object({
-  suggestedRoles: z.array(z.string()).describe('A list of suggested career roles within the discipline.'),
+  suggestedRoles: z.array(z.string()).describe('A list of suggested career roles.'),
   suggestedCourses: z.array(z.string()).describe('A list of suggested courses or programs to maximize potential in the field.'),
   potentialSkills: z.array(z.string()).describe('A list of potential skills to develop for these roles.')
 });
@@ -37,9 +37,10 @@ const prompt = ai.definePrompt({
   output: {schema: CareerSuggestionsOutputSchema},
   prompt: `You are an AI career advisor specializing in computer science.
 
-You will provide career suggestions based on the user's interests within a specific computer science discipline.
+You will provide career suggestions based on the user's interests.
+The user has specified the following discipline: '{{{discipline}}}'.
+If the discipline is 'Any', provide suggestions across the entire field of computer science. Otherwise, focus your suggestions on the specified discipline.
 
-Discipline: {{{discipline}}}
 Interests: {{{interests}}}
 
 Based on the above information, suggest relevant career roles, courses/programs, and potential skills to develop.

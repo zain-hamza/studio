@@ -33,7 +33,9 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
@@ -53,8 +55,6 @@ const formSchema = z.object({
 });
 
 type FormData = z.infer<typeof formSchema>;
-
-const allDisciplines = csParentCategoriesData.flatMap(parent => parent.fields);
 
 export default function AICareerAdvisor() {
   const [isLoading, setIsLoading] = useState(false);
@@ -124,10 +124,19 @@ export default function AICareerAdvisor() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {allDisciplines.map((category) => (
-                          <SelectItem key={category.id} value={category.field}>
-                            {category.field}
-                          </SelectItem>
+                        <SelectItem value="Any">Any Discipline</SelectItem>
+                        {csParentCategoriesData.map((parent) => (
+                          <SelectGroup key={parent.id}>
+                            <SelectLabel>{parent.name}</SelectLabel>
+                            {parent.fields.map((category) => (
+                              <SelectItem
+                                key={category.id}
+                                value={category.field}
+                              >
+                                {category.field}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
                         ))}
                       </SelectContent>
                     </Select>
