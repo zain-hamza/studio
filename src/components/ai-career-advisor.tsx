@@ -47,7 +47,7 @@ import { type CareerSuggestionsOutput } from '@/ai/flows/ai-career-advisor';
 import { Badge } from './ui/badge';
 
 const formSchema = z.object({
-  discipline: z.string().min(1, 'Please select a discipline.'),
+  discipline: z.string().optional(),
   interests: z
     .string()
     .min(10, 'Please describe your interests in at least 10 characters.')
@@ -73,7 +73,11 @@ export default function AICareerAdvisor() {
     setIsLoading(true);
     setResult(null);
     try {
-      const response = await getCareerAdviceAction(data);
+      const submissionData = {
+        ...data,
+        discipline: data.discipline || 'Any',
+      };
+      const response = await getCareerAdviceAction(submissionData);
       setResult(response);
     } catch (error) {
       toast({
@@ -124,7 +128,7 @@ export default function AICareerAdvisor() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Any">Any Discipline</SelectItem>
+                        <SelectItem value="Any" className="font-semibold text-primary">Any Discipline</SelectItem>
                         {csParentCategoriesData.map((parent) => (
                           <SelectGroup key={parent.id}>
                             <SelectLabel>{parent.name}</SelectLabel>
