@@ -1,4 +1,4 @@
-import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud } from 'lucide-react';
+import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase } from 'lucide-react';
 
 export interface Role {
   name: string;
@@ -117,6 +117,41 @@ export const csHierarchyData: CSHierarchy[] = [
         skills: ['Linguistics', 'Deep Learning', 'Transformers', 'Text Mining'],
         tools: ['Hugging Face', 'NLTK', 'spaCy', 'Gensim'],
         careerPath: 'NLP Engineer -> Senior NLP Scientist -> Head of Conversational AI',
+      },
+    ],
+  },
+  {
+    id: 'ds',
+    field: 'Data Science',
+    icon: Database,
+    description: 'Extracting knowledge and insights from structured and unstructured data to inform decision-making.',
+    subfields: [
+      {
+        name: 'Data Analysis',
+        icon: BarChart2,
+        description: 'Inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information.',
+        roles: [{ name: 'Data Analyst', responsibilities: 'Interprets data and turns it into information which can offer ways to improve a business.' }],
+        skills: ['SQL', 'Excel', 'Statistics', 'Data Visualization', 'R/Python'],
+        tools: ['Tableau', 'Power BI', 'Google Analytics', 'Jupyter Notebooks'],
+        careerPath: 'Junior Data Analyst -> Data Analyst -> Senior Data Analyst -> Analytics Manager',
+      },
+      {
+        name: 'Data Engineering',
+        icon: DatabaseZap,
+        description: 'Developing and maintaining data pipelines and infrastructure to support data scientists.',
+        roles: [{ name: 'Data Engineer', responsibilities: 'Builds and manages the infrastructure for data generation, storage, and processing.' }],
+        skills: ['ETL/ELT Processes', 'Data Warehousing', 'Big Data Technologies (Hadoop, Spark)', 'Python/Scala', 'SQL'],
+        tools: ['Apache Airflow', 'Databricks', 'Snowflake', 'dbt', 'AWS S3'],
+        careerPath: 'Data Engineer -> Senior Data Engineer -> Data Architect',
+      },
+      {
+        name: 'Business Intelligence',
+        icon: Briefcase,
+        description: 'Using strategies and technologies for data analysis of business information to help executives make informed business decisions.',
+        roles: [{ name: 'BI Developer', responsibilities: 'Designs and develops BI solutions, including dashboards and reports.' }],
+        skills: ['Data Warehousing', 'Dashboarding', 'Reporting', 'SQL', 'Business Acumen'],
+        tools: ['Tableau', 'Power BI', 'Qlik Sense', 'SAP BusinessObjects'],
+        careerPath: 'BI Analyst -> BI Developer -> Senior BI Developer -> BI Manager',
       },
     ],
   },
