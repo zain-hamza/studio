@@ -79,7 +79,7 @@ export default function AboutPage() {
               </div>
               <img
                 src="https://placehold.co/550x550.png"
-                data-ai-hint="team collaboration"
+                data-ai-hint="knowledge sharing"
                 width="550"
                 height="550"
                 alt="About Us"
