@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { csParentCategoriesData, type ParentCategory, type CSHierarchy as CSHierarchyType } from '@/data/cs-hierarchy';
 import { Header } from '@/components/header';
 import { Input } from '@/components/ui/input';
-import { Search, BrainCircuit, Network, WandSparkles } from 'lucide-react';
+import { Search, BrainCircuit, Network, WandSparkles, ChevronDown } from 'lucide-react';
 import { CSHierarchy } from '@/components/cs-hierarchy';
 import AICareerAdvisor from '@/components/ai-career-advisor';
 import { Footer } from '@/components/footer';
@@ -77,7 +77,7 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-card border-b">
+        <section className="relative flex h-[calc(100vh-3.5rem)] w-full items-center justify-center border-b bg-card">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-6 text-center">
               <div className="space-y-2">
@@ -99,6 +99,11 @@ export default function Home() {
               </div>
             </div>
           </div>
+           <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+            <Link href="#how-to-use" aria-label="Scroll to next section">
+                <ChevronDown className="h-8 w-8 text-muted-foreground animate-bounce" />
+            </Link>
+          </div>
         </section>
 
         <section id="how-to-use" className="w-full py-12 md:py-24">
@@ -116,7 +121,7 @@ export default function Home() {
             <div className="mx-auto grid max-w-5xl gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Step 1: Get Advice</CardTitle>
+                  <CardTitle>Step 1: Get Advice</CardTitle>
                   <BrainCircuit className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -127,7 +132,7 @@ export default function Home() {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Step 2: Explore Fields</CardTitle>
+                  <CardTitle>Step 2: Explore Fields</CardTitle>
                   <Network className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -138,7 +143,7 @@ export default function Home() {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Step 3: Discover Roles</CardTitle>
+                  <CardTitle>Step 3: Discover Roles</CardTitle>
                   <WandSparkles className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -149,7 +154,7 @@ export default function Home() {
               </Card>
                <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Step 4: Search Anything</CardTitle>
+                  <CardTitle>Step 4: Search Anything</CardTitle>
                   <Search className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
