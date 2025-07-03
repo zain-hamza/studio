@@ -28,7 +28,7 @@ export function CSHierarchy({ data }: CSHierarchyProps) {
           key={parent.id}
           className="border rounded-lg overflow-hidden bg-card shadow-lg"
         >
-          <AccordionTrigger className="text-2xl hover:no-underline font-headline bg-card p-6 transition-all hover:bg-secondary/50">
+          <AccordionTrigger className="text-xl md:text-2xl hover:no-underline font-headline bg-card p-4 md:p-6 transition-all hover:bg-secondary/50">
             <div className="flex items-center gap-4">
               <parent.icon className="h-10 w-10 text-primary" />
               <div className="text-left">
@@ -45,7 +45,7 @@ export function CSHierarchy({ data }: CSHierarchyProps) {
                   key={item.id}
                   className="border rounded-lg overflow-hidden bg-card shadow-sm"
                 >
-                  <AccordionTrigger className="text-xl hover:no-underline font-headline bg-card p-4 transition-all hover:bg-secondary/50">
+                  <AccordionTrigger className="text-lg md:text-xl hover:no-underline font-headline bg-card p-4 transition-all hover:bg-secondary/50">
                     <div className="flex items-center gap-4">
                       <item.icon className="h-8 w-8 text-accent" />
                       <span>{item.field}</span>
