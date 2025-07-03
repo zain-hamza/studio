@@ -4,10 +4,11 @@ import { useState, useMemo } from 'react';
 import { csParentCategoriesData, type ParentCategory, type CSHierarchy as CSHierarchyType } from '@/data/cs-hierarchy';
 import { Header } from '@/components/header';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Search, BrainCircuit, Network, WandSparkles } from 'lucide-react';
 import { CSHierarchy } from '@/components/cs-hierarchy';
 import AICareerAdvisor from '@/components/ai-career-advisor';
 import { Footer } from '@/components/footer';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -90,13 +91,74 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="ai-advisor" className="w-full py-12 md:py-24">
+        <section id="how-to-use" className="w-full py-12 md:py-24">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">
+                  Getting Started
+                </h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Discover your path in computer science in a few easy steps.
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid max-w-5xl gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Step 1: Get Advice</CardTitle>
+                  <BrainCircuit className="h-5 w-5 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Use the AI Advisor. Input your interests to get personalized career suggestions.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Step 2: Explore Fields</CardTitle>
+                  <Network className="h-5 w-5 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Dive into the hierarchy to browse through various CS disciplines and their sub-fields.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Step 3: Discover Roles</CardTitle>
+                  <WandSparkles className="h-5 w-5 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Click "Day in the Life" on any role to get a realistic, AI-generated daily schedule.
+                  </p>
+                </CardContent>
+              </Card>
+               <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Step 4: Search Anything</CardTitle>
+                  <Search className="h-5 w-5 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Use the powerful search bar to filter fields, roles, skills, and tools instantly.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        <section id="ai-advisor" className="w-full py-12 md:py-24 bg-card">
           <div className="container px-4 md:px-6">
              <AICareerAdvisor />
           </div>
         </section>
 
-        <section id="hierarchy" className="w-full py-12 md:py-24 bg-card">
+        <section id="hierarchy" className="w-full py-12 md:py-24 bg-background">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
