@@ -121,7 +121,7 @@ export default function Home() {
             <div className="mx-auto grid max-w-5xl gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle>Step 1: Get Advice</CardTitle>
+                  <CardTitle className="text-lg font-medium">Step 1: Get Advice</CardTitle>
                   <BrainCircuit className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -132,7 +132,7 @@ export default function Home() {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle>Step 2: Explore Fields</CardTitle>
+                  <CardTitle className="text-lg font-medium">Step 2: Explore Fields</CardTitle>
                   <Network className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -143,7 +143,7 @@ export default function Home() {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle>Step 3: Discover Roles</CardTitle>
+                  <CardTitle className="text-lg font-medium">Step 3: Discover Roles</CardTitle>
                   <WandSparkles className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -154,7 +154,7 @@ export default function Home() {
               </Card>
                <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle>Step 4: Search Anything</CardTitle>
+                  <CardTitle className="text-lg font-medium">Step 4: Search Anything</CardTitle>
                   <Search className="h-5 w-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -192,7 +192,7 @@ export default function Home() {
                 <Input
                   type="search"
                   placeholder="Search for a field, role, skill..."
-                  className="w-full rounded-full pl-10 pr-4 py-3 text-lg"
+                  className="w-full rounded-full pl-10 pr-4 py-3 text-base md:text-lg"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />

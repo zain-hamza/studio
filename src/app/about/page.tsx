@@ -1,6 +1,7 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Compass, Users, Lightbulb } from 'lucide-react';
+import Image from 'next/image';
 
 export default function AboutPage() {
   return (
@@ -77,12 +78,12 @@ export default function AboutPage() {
                   </li>
                 </ul>
               </div>
-              <img
+              <Image
                 src="https://placehold.co/550x550.png"
                 data-ai-hint="knowledge sharing"
                 width="550"
                 height="550"
-                alt="About Us"
+                alt="Abstract image representing knowledge and collaboration"
                 className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
               />
             </div>
