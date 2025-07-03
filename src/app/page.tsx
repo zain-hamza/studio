@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { csParentCategoriesData, type ParentCategory, type CSHierarchy as CSHierarchyType } from '@/data/cs-hierarchy';
 import { Header } from '@/components/header';
 import { Input } from '@/components/ui/input';
@@ -9,6 +11,7 @@ import { CSHierarchy } from '@/components/cs-hierarchy';
 import AICareerAdvisor from '@/components/ai-career-advisor';
 import { Footer } from '@/components/footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -75,18 +78,36 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-card border-b">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-card border-b">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-primary">
-                  CS Compass
-                </h1>
-                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  Your interactive guide to the vast world of Computer Science.
-                  Explore fields, discover career paths, and find your passion.
-                </p>
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
+              <div className="flex flex-col justify-center space-y-6 text-center lg:text-left">
+                <div className="space-y-2">
+                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-primary">
+                    CS Compass
+                  </h1>
+                  <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl lg:mx-0">
+                    Your interactive guide to the vast world of Computer Science.
+                    Explore fields, discover career paths, and find your passion.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start">
+                  <Button asChild size="lg">
+                    <Link href="#ai-advisor">Get AI Advice</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg">
+                    <Link href="#hierarchy">Explore Fields</Link>
+                  </Button>
+                </div>
               </div>
+              <Image
+                src="https://placehold.co/600x400.png"
+                data-ai-hint="computer science abstract"
+                alt="Hero"
+                width={600}
+                height={400}
+                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
+              />
             </div>
           </div>
         </section>
