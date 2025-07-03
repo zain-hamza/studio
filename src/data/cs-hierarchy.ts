@@ -1,4 +1,4 @@
-import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan, Landmark, Component, Sigma, Orbit, FunctionSquare, FlaskConical, Link, FileText, CandlestickChart, Dna, Microscope, Gamepad2, Puzzle, Package, Beaker, Wind, Replace } from 'lucide-react';
+import { type LucideIcon, Cpu, Code2, BrainCircuit, ShieldCheck, Server, Palette, Smartphone, GitBranch, Database, Network, Library, TestTube2, Cloud, BarChart2, DatabaseZap, Briefcase, Settings2, Camera, Image, ScanEye, MousePointerClick, PenTool, Accessibility, HardDrive, Cog, Share2, Bot, CircuitBoard, Scan, Landmark, Component, Sigma, Orbit, FunctionSquare, FlaskConical, Link, FileText, CandlestickChart, Dna, Microscope, Gamepad2, Puzzle, Package, Beaker, Wind, Replace, ClipboardCheck, Scale, Award, ShieldAlert, Shield, Fingerprint, Waves } from 'lucide-react';
 
 export interface Role {
   name: string;
@@ -68,7 +68,11 @@ const allCsFields: CSHierarchy[] = [
         name: 'Front-End Development',
         icon: Palette,
         description: 'Building the user-facing part of websites and applications.',
-        roles: [{ name: 'Front-End Developer', responsibilities: 'Implements visual elements and user interactions on a website or application.' }, { name: 'UI Engineer', responsibilities: 'Focuses on the technical implementation of the user interface design.' }],
+        roles: [
+          { name: 'Front-End Developer', responsibilities: 'Implements visual elements and user interactions on a website or application.' }, 
+          { name: 'UI Engineer', responsibilities: 'Focuses on the technical implementation of the user interface design.' },
+          { name: 'UI/UX Developer', responsibilities: 'A hybrid role that combines user interface design with front-end development implementation.' },
+        ],
         skills: ['HTML', 'CSS', 'JavaScript', 'React/Angular/Vue', 'Responsive Design', 'Accessibility'],
         tools: ['VS Code', 'Git', 'Webpack', 'Figma', 'Browser DevTools'],
         careerPath: 'Junior Developer -> Mid-level Developer -> Senior Developer -> Tech Lead / Principal Engineer',
@@ -77,7 +81,11 @@ const allCsFields: CSHierarchy[] = [
         name: 'Back-End Development',
         icon: Server,
         description: 'Developing the server-side logic, databases, and APIs that power applications.',
-        roles: [{ name: 'Back-End Developer', responsibilities: 'Builds and maintains the server, application, and database.' }, { name: 'API Developer', responsibilities: 'Specializes in creating and maintaining robust APIs.' }],
+        roles: [
+          { name: 'Back-End Developer', responsibilities: 'Builds and maintains the server, application, and database logic.' },
+          { name: 'API Developer', responsibilities: 'Specializes in creating and maintaining robust and scalable APIs.' },
+          { name: 'Database Administrator (DBA)', responsibilities: 'Manages, secures, and maintains the performance of databases.' },
+        ],
         skills: ['Node.js/Python/Java/Go', 'Databases (SQL/NoSQL)', 'API Design (REST, GraphQL)', 'System Architecture'],
         tools: ['Docker', 'Kubernetes', 'Postman', 'AWS/GCP/Azure', 'Nginx'],
         careerPath: 'Junior Developer -> Mid-level Developer -> Senior Developer -> System Architect',
@@ -86,7 +94,10 @@ const allCsFields: CSHierarchy[] = [
         name: 'DevOps Engineering',
         icon: Cloud,
         description: 'Bridging the gap between software development and IT operations to shorten the development life cycle.',
-        roles: [{ name: 'DevOps Engineer', responsibilities: 'Manages build, release, and deployment pipelines, and infrastructure.' }],
+        roles: [
+          { name: 'DevOps Engineer', responsibilities: 'Manages build, release, and deployment pipelines, and infrastructure.' },
+          { name: 'Site Reliability Engineer (SRE)', responsibilities: 'Focuses on creating ultra-scalable and highly reliable software systems.' },
+        ],
         skills: ['CI/CD', 'Infrastructure as Code (Terraform)', 'Containerization (Docker)', 'Cloud Platforms', 'Scripting'],
         tools: ['Jenkins', 'GitLab CI', 'Ansible', 'Prometheus', 'Grafana'],
         careerPath: 'DevOps Engineer -> Senior DevOps Engineer -> DevOps Manager / SRE Lead',
@@ -95,10 +106,38 @@ const allCsFields: CSHierarchy[] = [
         name: 'Mobile Development',
         icon: Smartphone,
         description: 'Creating applications for mobile devices like smartphones and tablets.',
-        roles: [{ name: 'iOS/Android Developer', responsibilities: 'Designs and builds applications for mobile platforms.' }],
+        roles: [
+          { name: 'iOS Developer', responsibilities: 'Designs and builds applications for Apple\'s iOS platform.' },
+          { name: 'Android Developer', responsibilities: 'Designs and builds applications for the Android platform.' },
+          { name: 'Cross-Platform Developer', responsibilities: 'Builds applications that run on multiple platforms using frameworks like React Native or Flutter.' },
+        ],
         skills: ['Swift/Kotlin/Java', 'React Native/Flutter', 'Mobile UI/UX', 'API Integration'],
         tools: ['Xcode', 'Android Studio', 'Git', 'Fastlane'],
         careerPath: 'Junior Mobile Dev -> Senior Mobile Dev -> Mobile Architect',
+      },
+      {
+        name: 'Quality Assurance (QA)',
+        icon: ClipboardCheck,
+        description: 'Ensuring software quality through systematic testing and validation processes.',
+        roles: [
+          { name: 'QA Engineer', responsibilities: 'Designs and executes manual and automated tests to ensure product quality.' },
+          { name: 'Automation Engineer', responsibilities: 'Builds automated testing frameworks and scripts to improve efficiency.' },
+        ],
+        skills: ['Test Planning', 'Test Case Design', 'Automated Testing Frameworks', 'Bug Tracking', 'CI/CD Integration'],
+        tools: ['Selenium', 'Cypress', 'Playwright', 'Jira', 'Postman'],
+        careerPath: 'QA Analyst -> QA Engineer -> QA Lead / Automation Architect',
+      },
+      {
+        name: 'Embedded Systems',
+        icon: Cpu,
+        description: 'Writing software for non-computer devices, like microcontrollers and IoT devices.',
+        roles: [
+          { name: 'Embedded Software Engineer', responsibilities: 'Develops and tests software for resource-constrained hardware.' },
+          { name: 'Firmware Engineer', responsibilities: 'Creates the low-level software that controls a device\'s hardware.' },
+        ],
+        skills: ['C/C++', 'Microcontrollers', 'Real-Time Operating Systems (RTOS)', 'Hardware Interfacing', 'Low-Level Debugging'],
+        tools: ['Keil', 'IAR Workbench', 'Oscilloscopes', 'Logic Analyzers', 'JTAG/SWD Debuggers'],
+        careerPath: 'Firmware Engineer -> Senior Embedded Engineer -> Embedded Systems Architect',
       },
     ],
   },
@@ -112,7 +151,11 @@ const allCsFields: CSHierarchy[] = [
         name: 'Machine Learning',
         icon: Library,
         description: 'Creating algorithms that allow computers to learn from and make predictions on data.',
-        roles: [{ name: 'Machine Learning Engineer', responsibilities: 'Designs and implements ML models to solve business problems.' }, { name: 'Data Scientist', responsibilities: 'Analyzes complex data to extract knowledge and insights.' }],
+        roles: [
+          { name: 'Machine Learning Engineer', responsibilities: 'Designs, builds, and deploys ML models to solve business problems.' },
+          { name: 'Data Scientist', responsibilities: 'Analyzes complex data to extract knowledge, build predictive models, and inform strategy.' },
+          { name: 'ML Research Scientist', responsibilities: 'Conducts novel research to advance the state-of-the-art in machine learning.' }
+        ],
         skills: ['Python', 'Statistics', 'Linear Algebra', 'Data Modeling', 'Deep Learning Frameworks'],
         tools: ['TensorFlow', 'PyTorch', 'scikit-learn', 'Jupyter Notebooks', 'Pandas'],
         careerPath: 'ML Engineer -> Senior ML Engineer -> AI Research Scientist / ML Lead',
@@ -121,10 +164,37 @@ const allCsFields: CSHierarchy[] = [
         name: 'Natural Language Processing (NLP)',
         icon: Library,
         description: 'Enabling computers to understand, interpret, and generate human language.',
-        roles: [{ name: 'NLP Engineer', responsibilities: 'Builds systems that can process and analyze text and speech data.' }],
-        skills: ['Linguistics', 'Deep Learning', 'Transformers', 'Text Mining'],
-        tools: ['Hugging Face', 'NLTK', 'spaCy', 'Gensim'],
+        roles: [
+          { name: 'NLP Engineer', responsibilities: 'Builds systems that can process and analyze text and speech data.' },
+          { name: 'Conversational AI Developer', responsibilities: 'Creates chatbots and voice assistants that can interact naturally with users.' }
+        ],
+        skills: ['Linguistics', 'Deep Learning', 'Transformers', 'Text Mining', 'Speech-to-Text APIs'],
+        tools: ['Hugging Face', 'NLTK', 'spaCy', 'Gensim', 'Dialogflow'],
         careerPath: 'NLP Engineer -> Senior NLP Scientist -> Head of Conversational AI',
+      },
+      {
+        name: 'Reinforcement Learning',
+        icon: Award,
+        description: 'Training intelligent agents to make optimal sequences of decisions through trial and error.',
+        roles: [
+          { name: 'Reinforcement Learning Scientist', responsibilities: 'Designs and experiments with RL algorithms for applications like robotics, gaming, and optimization.' },
+          { name: 'Robotics Engineer', responsibilities: 'Uses RL to teach robots complex tasks and how to adapt to new environments.' },
+        ],
+        skills: ['Markov Decision Processes', 'Q-Learning', 'Policy Gradients', 'Deep Reinforcement Learning'],
+        tools: ['OpenAI Gym', 'PyTorch', 'Ray RLlib', 'MuJoCo'],
+        careerPath: 'RL Engineer -> Research Scientist -> Lead AI Researcher',
+      },
+      {
+        name: 'AI Ethics & Governance',
+        icon: Scale,
+        description: 'Ensuring AI systems are developed and deployed in a responsible, fair, and transparent manner.',
+        roles: [
+          { name: 'AI Ethicist', responsibilities: 'Analyzes the societal impact of AI and develops ethical guidelines.' },
+          { name: 'Responsible AI Lead', responsibilities: 'Implements processes and tools to ensure fairness, explainability, and accountability in AI models.' },
+        ],
+        skills: ['Ethics', 'Public Policy', 'Fairness & Bias Auditing', 'Explainable AI (XAI)', 'Data Privacy'],
+        tools: ['AI Fairness 360', 'SHAP', 'LIME', 'What-If Tool'],
+        careerPath: 'AI Policy Analyst -> AI Ethicist -> Chief Ethics Officer',
       },
     ],
   },
@@ -138,16 +208,22 @@ const allCsFields: CSHierarchy[] = [
         name: 'Data Analysis',
         icon: BarChart2,
         description: 'Inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information.',
-        roles: [{ name: 'Data Analyst', responsibilities: 'Interprets data and turns it into information which can offer ways to improve a business.' }],
+        roles: [
+          { name: 'Data Analyst', responsibilities: 'Interprets data and turns it into information which can offer ways to improve a business.' },
+          { name: 'Product Analyst', responsibilities: 'Focuses on data related to a specific product to understand user behavior and guide feature development.' }
+        ],
         skills: ['SQL', 'Excel', 'Statistics', 'Data Visualization', 'R/Python'],
-        tools: ['Tableau', 'Power BI', 'Google Analytics', 'Jupyter Notebooks'],
+        tools: ['Tableau', 'Power BI', 'Google Analytics', 'Jupyter Notebooks', 'Mixpanel'],
         careerPath: 'Junior Data Analyst -> Data Analyst -> Senior Data Analyst -> Analytics Manager',
       },
       {
         name: 'Data Engineering',
         icon: DatabaseZap,
         description: 'Developing and maintaining data pipelines and infrastructure to support data scientists.',
-        roles: [{ name: 'Data Engineer', responsibilities: 'Builds and manages the infrastructure for data generation, storage, and processing.' }],
+        roles: [
+          { name: 'Data Engineer', responsibilities: 'Builds and manages the infrastructure for data generation, storage, and processing.' },
+          { name: 'Analytics Engineer', responsibilities: 'Transforms and models raw data into clean, analysis-ready datasets for analysts.' }
+        ],
         skills: ['ETL/ELT Processes', 'Data Warehousing', 'Big Data Technologies (Hadoop, Spark)', 'Python/Scala', 'SQL'],
         tools: ['Apache Airflow', 'Databricks', 'Snowflake', 'dbt', 'AWS S3'],
         careerPath: 'Data Engineer -> Senior Data Engineer -> Data Architect',
@@ -156,10 +232,25 @@ const allCsFields: CSHierarchy[] = [
         name: 'Business Intelligence',
         icon: Briefcase,
         description: 'Using strategies and technologies for data analysis of business information to help executives make informed business decisions.',
-        roles: [{ name: 'BI Developer', responsibilities: 'Designs and develops BI solutions, including dashboards and reports.' }],
+        roles: [
+          { name: 'BI Developer', responsibilities: 'Designs and develops BI solutions, including dashboards and reports.' },
+          { name: 'BI Analyst', responsibilities: 'Analyzes business data to identify trends and provide actionable insights through visualizations.' }
+        ],
         skills: ['Data Warehousing', 'Dashboarding', 'Reporting', 'SQL', 'Business Acumen'],
-        tools: ['Tableau', 'Power BI', 'Qlik Sense', 'SAP BusinessObjects'],
+        tools: ['Tableau', 'Power BI', 'Qlik Sense', 'SAP BusinessObjects', 'Looker'],
         careerPath: 'BI Analyst -> BI Developer -> Senior BI Developer -> BI Manager',
+      },
+      {
+        name: 'Big Data Technologies',
+        icon: Waves,
+        description: 'Working with datasets that are too large or complex for traditional data-processing application software.',
+        roles: [
+          { name: 'Big Data Engineer', responsibilities: 'Designs, builds, and manages distributed systems for processing massive datasets.' },
+          { name: 'Spark Developer', responsibilities: 'Specializes in using the Apache Spark framework for large-scale data processing and analytics.' }
+        ],
+        skills: ['Distributed Systems', 'Apache Hadoop', 'Apache Spark', 'Apache Kafka', 'Stream Processing'],
+        tools: ['HDFS', 'MapReduce', 'Spark SQL', 'Kafka Streams', 'Flink'],
+        careerPath: 'Data Engineer -> Big Data Architect -> Head of Data Platform',
       },
     ],
   },
@@ -173,19 +264,61 @@ const allCsFields: CSHierarchy[] = [
         name: 'Network Security',
         icon: Network,
         description: 'Securing computer networks from intruders, both targeted and opportunistic.',
-        roles: [{ name: 'Network Security Engineer', responsibilities: 'Designs and implements secure network solutions.' }],
-        skills: ['Firewalls', 'VPNs', 'Intrusion Detection/Prevention Systems', 'Packet Analysis'],
-        tools: ['Wireshark', 'Nmap', 'Metasploit', 'Cisco ASA'],
+        roles: [
+          { name: 'Network Security Engineer', responsibilities: 'Designs and implements secure network solutions.' },
+          { name: 'Security Operations Center (SOC) Analyst', responsibilities: 'Monitors network traffic for security incidents and responds to alerts.' }
+        ],
+        skills: ['Firewalls', 'VPNs', 'Intrusion Detection/Prevention Systems', 'Packet Analysis', 'SIEM'],
+        tools: ['Wireshark', 'Nmap', 'Metasploit', 'Splunk', 'Snort'],
         careerPath: 'Security Analyst -> Security Engineer -> Security Architect',
       },
       {
         name: 'Ethical Hacking',
         icon: TestTube2,
         description: 'Proactively finding and fixing security vulnerabilities in systems by legally hacking them.',
-        roles: [{ name: 'Penetration Tester', responsibilities: 'Conducts authorized tests on systems to expose vulnerabilities.' }],
+        roles: [
+          { name: 'Penetration Tester', responsibilities: 'Conducts authorized tests on systems to expose vulnerabilities.' },
+          { name: 'Security Researcher', responsibilities: 'Discovers new vulnerabilities in software and hardware through deep analysis.' }
+        ],
         skills: ['Vulnerability Assessment', 'Exploitation Techniques', 'Social Engineering', 'Reverse Engineering'],
-        tools: ['Kali Linux', 'Burp Suite', 'OWASP ZAP', 'John the Ripper'],
+        tools: ['Kali Linux', 'Burp Suite', 'OWASP ZAP', 'Metasploit', 'Ghidra'],
         careerPath: 'Pentester -> Senior Pentester -> Red Team Lead / Security Consultant',
+      },
+      {
+        name: 'Application Security (AppSec)',
+        icon: Shield,
+        description: 'Integrating security practices into the software development lifecycle to create secure applications.',
+        roles: [
+          { name: 'Application Security Engineer', responsibilities: 'Works with developers to identify and remediate security flaws in code.' },
+          { name: 'Product Security Engineer', responsibilities: 'Ensures the security of a specific product throughout its entire lifecycle.' }
+        ],
+        skills: ['Secure Coding (OWASP Top 10)', 'Threat Modeling', 'SAST/DAST', 'Code Review', 'DevSecOps'],
+        tools: ['Snyk', 'Checkmarx', 'Veracode', 'Burp Suite', 'GitHub Actions'],
+        careerPath: 'Security Engineer -> Senior AppSec Engineer -> Product Security Architect',
+      },
+      {
+        name: 'Cloud Security',
+        icon: ShieldAlert,
+        description: 'Protecting data, applications, and infrastructure hosted in a cloud environment.',
+        roles: [
+          { name: 'Cloud Security Engineer', responsibilities: 'Implements and manages security controls in cloud environments like AWS, Azure, or GCP.' },
+          { name: 'Cloud Security Architect', responsibilities: 'Designs secure cloud architectures and defines cloud security strategy.' }
+        ],
+        skills: ['Cloud Platforms (AWS, Azure, GCP)', 'Identity and Access Management (IAM)', 'Container Security', 'Infrastructure as Code (IaC)'],
+        tools: ['AWS Security Hub', 'Azure Sentinel', 'Terraform', 'Wiz', 'Prisma Cloud'],
+        careerPath: 'Cloud Engineer -> Cloud Security Engineer -> Principal Security Architect',
+      },
+      {
+        name: 'Digital Forensics & Incident Response',
+        icon: Fingerprint,
+        description: 'Investigating cybercrime and security breaches to understand what happened and how to recover.',
+        roles: [
+          { name: 'Digital Forensic Analyst', responsibilities: 'Recovers and investigates material found in digital devices related to cybercrime.' },
+          { name: 'Incident Responder', responsibilities: 'Manages the response to a security breach, from containment to eradication and recovery.' }
+        ],
+        skills: ['Malware Analysis', 'Memory Forensics', 'Log Analysis', 'Evidence Handling', 'Reverse Engineering'],
+        tools: ['EnCase', 'FTK Imager', 'Volatility Framework', 'The SIFT Workstation', 'Wireshark'],
+        careerPath: 'Forensic Analyst -> Senior Incident Responder -> DFIR Manager',
       },
     ],
   },
