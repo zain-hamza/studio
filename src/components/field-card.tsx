@@ -17,8 +17,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { generateDayInTheLifeAction } from '@/app/actions';
+import { generateDayInTheLifeAction, generateRoleImageAction } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from './ui/skeleton';
 
 interface FieldCardProps {
   subfield: Subfield;
@@ -28,30 +29,48 @@ export function FieldCard({ subfield }: FieldCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState('');
   const [dialogTitle, setDialogTitle] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [dialogImageUrl, setDialogImageUrl] = useState<string | null>(null);
+  const [isLoadingText, setIsLoadingText] = useState(false);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const { toast } = useToast();
 
   const handleDayInTheLifeClick = async (roleName: string) => {
-    setIsLoading(true);
+    setIsLoadingText(true);
+    setIsLoadingImage(true);
     setDialogTitle(`A Day in the Life of a ${roleName}`);
-    setDialogContent(''); // Clear previous content
+    setDialogContent('');
+    setDialogImageUrl(null);
     setIsDialogOpen(true);
 
-    try {
-      const result = await generateDayInTheLifeAction({ roleName });
-      setDialogContent(result.dayInTheLife);
-    } catch (error) {
-      setIsDialogOpen(false); // Close dialog on error
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description:
-          'Could not generate the "Day in the Life". Please try again.',
+    generateDayInTheLifeAction({ roleName })
+      .then((result) => {
+        setDialogContent(result.dayInTheLife);
+      })
+      .catch((error) => {
+        setIsDialogOpen(false);
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description:
+            'Could not generate the "Day in the Life". Please try again.',
+        });
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoadingText(false);
       });
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+
+    generateRoleImageAction({ roleName })
+      .then((result) => {
+        setDialogImageUrl(result.imageUrl);
+      })
+      .catch((error) => {
+        console.error("Image generation failed:", error);
+        setDialogImageUrl(null);
+      })
+      .finally(() => {
+        setIsLoadingImage(false);
+      });
   };
 
   return (
@@ -84,7 +103,7 @@ export function FieldCard({ subfield }: FieldCardProps) {
                                 e.stopPropagation(); // Prevent accordion from toggling
                                 handleDayInTheLifeClick(role.name);
                             }}
-                            disabled={isLoading}
+                            disabled={isLoadingText || isLoadingImage}
                         >
                             <WandSparkles className="mr-2 h-4 w-4 text-primary"/>
                             Day in the Life
@@ -127,21 +146,41 @@ export function FieldCard({ subfield }: FieldCardProps) {
       </AccordionContent>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="sm:max-w-2xl max-h-[80vh] overflow-y-auto">
-              <DialogHeader>
-                  <DialogTitle>{dialogTitle}</DialogTitle>
-              </DialogHeader>
-              <div className="py-4 [&_h2]:font-headline [&_h2]:text-xl [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1">
-                {isLoading ? (
-                    <div className="flex flex-col items-center justify-center gap-4 p-8">
-                        <Loader2 className="h-10 w-10 animate-spin text-primary"/>
-                        <p>Our AI is imagining a day for you...</p>
-                    </div>
-                ) : (
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{dialogContent}</ReactMarkdown>
-                )}
-              </div>
-          </DialogContent>
+        <DialogContent className="sm:max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{dialogTitle}</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
+            <div className="flex flex-col items-center justify-center bg-secondary rounded-lg p-2">
+              {isLoadingImage ? (
+                <div className="w-full h-64 flex flex-col items-center justify-center gap-4 text-muted-foreground">
+                   <Loader2 className="h-10 w-10 animate-spin text-primary"/>
+                   <p>Generating image...</p>
+                </div>
+              ) : (
+                dialogImageUrl && (
+                  <img
+                    src={dialogImageUrl}
+                    alt={dialogTitle}
+                    className="rounded-md object-cover w-full h-auto aspect-square"
+                  />
+                )
+              )}
+            </div>
+            <div className="[&_h2]:font-headline [&_h2]:text-xl [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1">
+              {isLoadingText ? (
+                <div className="flex flex-col items-center justify-center gap-4 p-8 h-full text-muted-foreground">
+                  <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                  <p>Our AI is imagining a day for you...</p>
+                </div>
+              ) : (
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {dialogContent}
+                </ReactMarkdown>
+              )}
+            </div>
+          </div>
+        </DialogContent>
       </Dialog>
     </>
   );
