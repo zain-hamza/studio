@@ -199,7 +199,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mx-auto max-w-5xl">
-              <CSHierarchy data={filteredData} />
+              <CSHierarchy data={filteredData} searchTerm={searchTerm} />
             </div>
           </div>
         </section>

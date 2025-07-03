@@ -19,12 +19,14 @@ import {
 } from '@/components/ui/dialog';
 import { generateDayInTheLifeAction } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import { HighlightText } from './highlight-text';
 
 interface FieldCardProps {
   subfield: Subfield;
+  searchTerm: string;
 }
 
-export function FieldCard({ subfield }: FieldCardProps) {
+export function FieldCard({ subfield, searchTerm }: FieldCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState('');
   const [dialogTitle, setDialogTitle] = useState('');
@@ -62,8 +64,12 @@ export function FieldCard({ subfield }: FieldCardProps) {
         <div className="flex items-center gap-3 w-full">
             <subfield.icon className="h-6 w-6 text-accent" />
             <div className="flex-grow">
-              <h3 className="font-semibold text-lg">{subfield.name}</h3>
-              <p className="text-sm text-muted-foreground">{subfield.description}</p>
+              <h3 className="font-semibold text-lg">
+                <HighlightText text={subfield.name} highlight={searchTerm} />
+                </h3>
+              <p className="text-sm text-muted-foreground">
+                <HighlightText text={subfield.description} highlight={searchTerm} />
+              </p>
             </div>
         </div>
       </AccordionTrigger>
@@ -77,7 +83,9 @@ export function FieldCard({ subfield }: FieldCardProps) {
               {subfield.roles.map((role) => (
                 <li key={role.name}>
                     <div className="flex items-center justify-between flex-wrap gap-2">
-                        <strong className="font-medium">{role.name}</strong>
+                        <strong className="font-medium">
+                          <HighlightText text={role.name} highlight={searchTerm} />
+                        </strong>
                         <Button
                             variant="outline"
                             size="sm"
@@ -92,7 +100,9 @@ export function FieldCard({ subfield }: FieldCardProps) {
                             Day in the Life
                         </Button>
                     </div>
-                  <p className="text-muted-foreground text-sm mt-1">{role.responsibilities}</p>
+                  <p className="text-muted-foreground text-sm mt-1">
+                    <HighlightText text={role.responsibilities} highlight={searchTerm} />
+                  </p>
                 </li>
               ))}
             </ul>
@@ -104,7 +114,9 @@ export function FieldCard({ subfield }: FieldCardProps) {
               </h4>
               <div className="flex flex-wrap gap-2">
                 {subfield.skills.map((skill) => (
-                  <Badge key={skill} variant="secondary">{skill}</Badge>
+                  <Badge key={skill} variant="secondary">
+                    <HighlightText text={skill} highlight={searchTerm} />
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -114,7 +126,9 @@ export function FieldCard({ subfield }: FieldCardProps) {
               </h4>
               <div className="flex flex-wrap gap-2">
                 {subfield.tools.map((tool) => (
-                  <Badge key={tool} variant="outline">{tool}</Badge>
+                  <Badge key={tool} variant="outline">
+                    <HighlightText text={tool} highlight={searchTerm} />
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -123,7 +137,9 @@ export function FieldCard({ subfield }: FieldCardProps) {
             <h4 className="font-semibold mb-3 flex items-center gap-2 text-primary">
               <TrendingUp className="h-5 w-5" /> Career Path
             </h4>
-            <p className="text-muted-foreground">{subfield.careerPath}</p>
+            <p className="text-muted-foreground">
+              <HighlightText text={subfield.careerPath} highlight={searchTerm} />
+            </p>
           </div>
         </div>
       </AccordionContent>
