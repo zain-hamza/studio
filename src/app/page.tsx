@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { csParentCategoriesData, type ParentCategory, type CSHierarchy } from '@/data/cs-hierarchy';
+import { csParentCategoriesData, type ParentCategory, type CSHierarchy as CSHierarchyType } from '@/data/cs-hierarchy';
 import { Header } from '@/components/header';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { CSHierarchy } from '@/components/cs-hierarchy';
 import AICareerAdvisor from '@/components/ai-career-advisor';
+import { Footer } from '@/components/footer';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,7 +52,7 @@ export default function Home() {
             }
             return null;
           })
-          .filter(Boolean) as CSHierarchy[];
+          .filter(Boolean) as CSHierarchyType[];
 
         const parentItselfMatches =
           parent.name.toLowerCase().includes(lowercasedFilter) ||
@@ -126,11 +127,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} CS Compass. All rights reserved.
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }
