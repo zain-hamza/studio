@@ -60,6 +60,44 @@
         }
       },
       "required": ["name", "parentSubfield", "savedAt"]
+    },
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "Represents a single blog post article.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the blog post."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly version of the title."
+        },
+        "content": {
+          "type": "string",
+          "description": "The main content of the blog post in Markdown format."
+        },
+        "isPublished": {
+          "type": "boolean",
+          "description": "Whether the post is visible to the public."
+        },
+        "authorId": {
+          "type": "string",
+          "description": "The UID of the user who wrote the post."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the post was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the post was last updated."
+        }
+      },
+      "required": ["title", "slug", "content", "isPublished", "authorId", "createdAt", "updatedAt"]
     }
   },
   "auth": {
@@ -79,6 +117,12 @@
         "$ref": "#/entities/SavedRole"
       },
       "description": "A subcollection storing the career roles saved by a user."
+    },
+    "/blogPosts/{postId}": {
+      "schema": {
+        "$ref": "#/entities/BlogPost"
+      },
+      "description": "A collection storing all blog post articles."
     }
   }
 }

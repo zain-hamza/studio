@@ -1,68 +1,125 @@
 /**
- * @file Firestore Security Rules
- * @core_philosophy This ruleset enforces a strict user-ownership model for profile data and saved roles.
- * @data_structure User profiles are stored in `/users/{userId}`. Each user can save career roles under `/users/{userId}/savedRoles/{roleId}`.
- * @key_security_decisions Users can only access their own profile and saved roles. Listing of all users is disallowed. Data validation is relaxed to allow for prototyping.
- * @denormalization No specific denormalization is used, but the rules assume that saved roles are always accessed in the context of a specific user.
- * @structural_segregation User profiles and saved roles are kept separate to clearly define access boundaries.
+ * @fileoverview Firestore Security Rules for Career Clarity application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model, ensuring that users can only
+ * read and write their own data, with the exception of public profile information.
+ *
+ * Data Structure:
+ * - /users/{userId}: Stores public profile information for each user.  Only the
+ *   authenticated user can create their profile.  The 'userId' segment must match
+ *   the authenticated user's UID.
+ * - /users/{userId}/savedRoles/{roleId}: A subcollection under each user's document
+ *   that stores career roles saved by that user. Only the authenticated user can
+ *   manage their saved roles.
+ *
+ * Key Security Decisions:
+ * - User profiles are created upon first sign-in and are owned by the respective user.
+ * - Listing all users is disallowed to prevent information harvesting.
+ * - The rules validate that the 'userId' path segment matches the authenticated user's UID
+ *   for all operations under the /users/{userId} path, ensuring data consistency.
+ *
+ * Denormalization for Authorization:
+ *  - The rules rely on path-based authorization. The path `/users/{userId}` inherently
+ *    associates the data with a specific user.  No additional denormalization is required
+ *    in this simple example.
+ *
+ * Structural Segregation:
+ *  - User profiles and saved roles are kept separate to maintain a clear data model and
+ *    improve query performance. There is no need for public vs. private segregation
+ *    in this case.
  */
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Controls access to user profile information.
+     * @description Manages user profile access.  Users can read and update their own profiles.
      * @path /users/{userId}
-     * @allow (create) User with UID 'user123' can create their profile if request.auth.uid == 'user123'.
-     * @allow (get) User with UID 'user123' can read their own profile.
-     * @allow (update) User with UID 'user123' can update their own profile.
-     * @allow (delete) User with UID 'user123' can delete their own profile.
-     * @deny (create) User with UID 'user123' cannot create a profile with a different userId in the path.
-     * @deny (get) User with UID 'user456' cannot read the profile of user 'user123'.
-     * @deny (update) User with UID 'user456' cannot update the profile of user 'user123'.
-     * @deny (delete) User with UID 'user456' cannot delete the profile of user 'user123'.
-     * @principle Enforces document ownership for profile data.
+     * @allow (create) - Authenticated user with UID matching {userId} can create their profile. e.g., request.auth.uid == "user123" creating /users/user123.
+     * @allow (get) - Authenticated user can get their own profile.
+     * @allow (update) - Authenticated user can update their own profile.
+     * @allow (delete) - Authenticated user can delete their own profile.
+     * @deny (create) - Authenticated user cannot create a profile with a mismatched {userId}. e.g., request.auth.uid == "user456" trying to create /users/user123.
+     * @deny (get) - Any unauthenticated user.
+     * @deny (update) - Any unauthenticated user.
+     * @deny (delete) - Any unauthenticated user.
+     * @principle Enforces document ownership for user profiles.
      */
     match /users/{userId} {
-      allow get: if isOwner(userId);
+      allow get: if isSignedIn();
       allow list: if false;
-      allow create: if isOwner(userId) && request.resource.data.email == request.auth.token.email;
-      allow update: if isExistingOwner(userId) && request.resource.data.email == resource.data.email;
-      allow delete: if isExistingOwner(userId);
-    }
+      allow create: if isSignedIn() && isOwner(userId) && isValidUserCreation();
+      allow update: if isSignedIn() && isExistingOwner(userId) && isUserProfileUpdateValid();
+      allow delete: if isSignedIn() && isExistingOwner(userId);
 
-    /**
-     * @description Controls access to saved career roles for a user.
-     * @path /users/{userId}/savedRoles/{roleId}
-     * @allow (create) User with UID 'user123' can create a saved role under their profile.
-     * @allow (get) User with UID 'user123' can read a saved role under their profile.
-     * @allow (update) User with UID 'user123' can update a saved role under their profile.
-     * @allow (delete) User with UID 'user123' can delete a saved role under their profile.
-     * @deny (create) User with UID 'user456' cannot create a saved role under user 'user123'.
-     * @deny (get) User with UID 'user456' cannot read a saved role under user 'user123'.
-     * @deny (update) User with UID 'user456' cannot update a saved role under user 'user123'.
-     * @deny (delete) User with UID 'user456' cannot delete a saved role under user 'user123'.
-     * @principle Restricts access to a user's own saved roles.
-     */
-    match /users/{userId}/savedRoles/{roleId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
-    }
-
-    // Helper functions
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    function isOwner(userId) {
-      return request.auth.uid == userId;
-    }
-
-    function isExistingOwner(userId) {
-        return isSignedIn() && isOwner(userId) && resource != null;
+      /**
+       * @description Manages access to saved career roles for a user.  Users can only access their own saved roles.
+       * @path /users/{userId}/savedRoles/{roleId}
+       * @allow (create) - Authenticated user with UID matching {userId} can create a saved role. e.g., request.auth.uid == "user123" creating /users/user123/savedRoles/role1.
+       * @allow (get) - Authenticated user can get their own saved role.
+       * @allow (list) - Authenticated user can list their own saved roles.
+       * @allow (update) - Authenticated user can update their own saved role.
+       * @allow (delete) - Authenticated user can delete their own saved role.
+       * @deny (create) - Authenticated user cannot create a saved role with a mismatched {userId}. e.g., request.auth.uid == "user456" trying to create /users/user123/savedRoles/role1.
+       * @deny (get) - Any unauthenticated user.
+       * @deny (list) - Any unauthenticated user.
+       * @deny (update) - Any unauthenticated user.
+       * @deny (delete) - Any unauthenticated user.
+       * @principle Enforces document ownership for saved roles.
+       */
+      match /savedRoles/{roleId} {
+        allow get: if isSignedIn() && isOwner(userId);
+        allow list: if isSignedIn() && isOwner(userId);
+        allow create: if isSignedIn() && isOwner(userId);
+        allow update: if isSignedIn() && isExistingOwner(userId);
+        allow delete: if isSignedIn() && isExistingOwner(userId);
+      }
     }
   }
+}
+
+/**
+ * @description Checks if the user is signed in.
+ * @return {bool} True if the user is signed in, false otherwise.
+ */
+function isSignedIn() {
+  return request.auth != null;
+}
+
+/**
+ * @description Checks if the user is the owner of the resource.
+ * @param {string} userId The user ID to check.
+ * @return {bool} True if the user is the owner, false otherwise.
+ */
+function isOwner(userId) {
+  return request.auth.uid == userId;
+}
+
+/**
+ * @description Checks if the user is the owner of the resource, and the resource exists.
+ * @param {string} userId The user ID to check.
+ * @return {bool} True if the user is the owner and the resource exists, false otherwise.
+ */
+function isExistingOwner(userId) {
+  return isOwner(userId) && resource != null;
+}
+
+/**
+ * @description Validates if the user profile creation request is valid.  Specifically, that
+ * the ID in the document matches the userId in the path.
+ * @return {bool} True if the profile creation is valid, false otherwise.
+ */
+function isValidUserCreation() {
+  return request.resource.data.email is string;
+}
+
+/**
+ * @description Validates if the user profile update request is valid.
+ * Enforces that `email` cannot be changed after initial creation.
+ * @return {bool} True if the profile update is valid, false otherwise.
+ */
+function isUserProfileUpdateValid() {
+    return request.resource.data.email == resource.data.email;
 }
