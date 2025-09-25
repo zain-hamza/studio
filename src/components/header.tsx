@@ -8,6 +8,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet';
+import { AuthButton } from './auth-button';
 
 export function Header() {
   const navLinks = [
@@ -36,6 +37,7 @@ export function Header() {
                 </Link>
               </Button>
             ))}
+            <AuthButton />
             <ThemeToggle />
           </nav>
 
@@ -69,6 +71,9 @@ export function Header() {
                     </SheetClose>
                   ))}
                 </nav>
+                 <div className="absolute bottom-6 left-6">
+                    <AuthButton />
+                </div>
                 <div className="absolute bottom-6 right-6">
                   <ThemeToggle />
                 </div>
