@@ -5,11 +5,13 @@ export function initializeAdminApp() {
     return;
   }
   
-  if (!process.env.GCLOUD_PROJECT) {
+  const projectId = process.env.GCLOUD_PROJECT || 'cs-compass';
+
+  if (!projectId) {
     throw new Error('The GCLOUD_PROJECT environment variable is not set.');
   }
 
   admin.initializeApp({
-    projectId: process.env.GCLOUD_PROJECT,
+    projectId: projectId,
   });
 }
