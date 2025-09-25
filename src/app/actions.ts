@@ -2,7 +2,7 @@
 
 import { getCareerSuggestions, type CareerSuggestionsInput, type CareerSuggestionsOutput } from "@/ai/flows/ai-career-advisor";
 import { generateDayInTheLife, type DayInTheLifeInput, type DayInTheLifeOutput } from "@/ai/flows/generate-day-in-the-life";
-import { type Subfield, type Role } from '@/data/cs-hierarchy';
+import { type Role } from '@/data/cs-hierarchy';
 import { getFirestore } from 'firebase-admin/firestore';
 import { initializeAdminApp } from '@/firebase/admin';
 
@@ -30,10 +30,16 @@ export async function generateDayInTheLifeAction(input: DayInTheLifeInput): Prom
   }
 }
 
+interface PlainSubfield {
+    name: string;
+    skills: string[];
+    tools: string[];
+}
+
 interface SaveRoleInput {
     userId: string;
     role: Role;
-    subfield: Subfield;
+    subfield: PlainSubfield;
 }
 
 export async function saveRoleAction({ userId, role, subfield }: SaveRoleInput): Promise<{ success: boolean; roleId: string }> {

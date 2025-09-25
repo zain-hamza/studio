@@ -100,7 +100,13 @@ export function FieldCard({ subfield, searchTerm }: FieldCardProps) {
         await unsaveRoleAction({ userId: user.uid, roleId: savedRoles[role.name] });
         toast({ title: 'Role Unsaved', description: `${role.name} removed from your list.`});
       } else {
-        await saveRoleAction({ userId: user.uid, role, subfield });
+        // Create a plain object without the 'icon' component
+        const plainSubfield = {
+          name: subfield.name,
+          skills: subfield.skills,
+          tools: subfield.tools,
+        };
+        await saveRoleAction({ userId: user.uid, role, subfield: plainSubfield });
         toast({ title: 'Role Saved!', description: `${role.name} added to your list.`});
       }
     } catch (error) {
