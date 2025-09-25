@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
@@ -8,8 +8,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { type Subfield } from '@/data/cs-hierarchy';
-import { Briefcase, Wrench, GraduationCap, TrendingUp, Loader2, WandSparkles } from 'lucide-react';
+import { type Subfield, type Role } from '@/data/cs-hierarchy';
+import { Briefcase, Wrench, GraduationCap, TrendingUp, Loader2, WandSparkles, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -17,9 +17,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { generateDayInTheLifeAction } from '@/app/actions';
+import { generateDayInTheLifeAction, saveRoleAction, unsaveRoleAction } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { HighlightText } from './highlight-text';
+import { useUser } from '@/firebase/auth/use-user';
+import { useFirestore } from '@/firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { cn } from '@/lib/utils';
 
 interface FieldCardProps {
   subfield: Subfield;
@@ -32,6 +36,27 @@ export function FieldCard({ subfield, searchTerm }: FieldCardProps) {
   const [dialogTitle, setDialogTitle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useUser();
+  const firestore = useFirestore();
+  const [savedRoles, setSavedRoles] = useState<Record<string, string>>({});
+  
+  useEffect(() => {
+    if (user) {
+      const savedRolesRef = collection(firestore, 'users', user.uid, 'savedRoles');
+      const q = query(savedRolesRef);
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const roles: Record<string, string> = {};
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            roles[data.name] = doc.id;
+        });
+        setSavedRoles(roles);
+      });
+      return () => unsubscribe();
+    } else {
+      setSavedRoles({});
+    }
+  }, [user, firestore]);
 
   const handleDayInTheLifeClick = async (roleName: string) => {
     setIsLoading(true);
@@ -58,6 +83,37 @@ export function FieldCard({ subfield, searchTerm }: FieldCardProps) {
       });
   };
 
+  const handleSaveRoleToggle = async (role: Role) => {
+    if (!user) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Required',
+        description: 'You must be signed in to save roles.',
+      });
+      return;
+    }
+
+    const isSaved = !!savedRoles[role.name];
+
+    try {
+      if (isSaved) {
+        await unsaveRoleAction({ userId: user.uid, roleId: savedRoles[role.name] });
+        toast({ title: 'Role Unsaved', description: `${role.name} removed from your list.`});
+      } else {
+        await saveRoleAction({ userId: user.uid, role, subfield });
+        toast({ title: 'Role Saved!', description: `${role.name} added to your list.`});
+      }
+    } catch (error) {
+       toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: `Could not ${isSaved ? 'unsave' : 'save'} the role. Please try again.`,
+      });
+      console.error(error);
+    }
+  };
+
+
   return (
     <>
       <AccordionTrigger className="p-4 text-left hover:no-underline w-full">
@@ -80,31 +136,50 @@ export function FieldCard({ subfield, searchTerm }: FieldCardProps) {
               <Briefcase className="h-5 w-5" /> Roles & Responsibilities
             </h4>
             <ul className="space-y-4">
-              {subfield.roles.map((role) => (
-                <li key={role.name}>
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                        <strong className="font-medium">
-                          <HighlightText text={role.name} highlight={searchTerm} />
-                        </strong>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="bg-card hover:bg-card/90"
-                            onClick={(e) => {
-                                e.stopPropagation(); // Prevent accordion from toggling
-                                handleDayInTheLifeClick(role.name);
-                            }}
-                            disabled={isLoading}
-                        >
-                            <WandSparkles className="mr-2 h-4 w-4 text-primary"/>
-                            Day in the Life
-                        </Button>
-                    </div>
-                  <p className="text-muted-foreground text-sm mt-1">
-                    <HighlightText text={role.responsibilities} highlight={searchTerm} />
-                  </p>
-                </li>
-              ))}
+              {subfield.roles.map((role) => {
+                const isSaved = !!savedRoles[role.name];
+                return (
+                  <li key={role.name}>
+                      <div className="flex items-start justify-between flex-wrap gap-2">
+                          <strong className="font-medium pt-2">
+                            <HighlightText text={role.name} highlight={searchTerm} />
+                          </strong>
+                          <div className="flex items-center gap-2">
+                           {user && (
+                              <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-9 w-9"
+                                  onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleSaveRoleToggle(role);
+                                  }}
+                                  aria-label={isSaved ? 'Unsave role' : 'Save role'}
+                              >
+                                  <Star className={cn("h-5 w-5", isSaved ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground")} />
+                              </Button>
+                           )}
+                           <Button
+                              variant="outline"
+                              size="sm"
+                              className="bg-card hover:bg-card/90"
+                              onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDayInTheLifeClick(role.name);
+                              }}
+                              disabled={isLoading}
+                           >
+                              <WandSparkles className="mr-2 h-4 w-4 text-primary"/>
+                              Day in the Life
+                           </Button>
+                          </div>
+                      </div>
+                    <p className="text-muted-foreground text-sm mt-1">
+                      <HighlightText text={role.responsibilities} highlight={searchTerm} />
+                    </p>
+                  </li>
+                )
+              })}
             </ul>
           </div>
           <div className="grid md:grid-cols-2 gap-6">

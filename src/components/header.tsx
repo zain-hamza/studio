@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Layers3, BrainCircuit, Network, Info, Menu } from 'lucide-react';
+import { Layers3, BrainCircuit, Network, Info, Menu, Star } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from './ui/button';
 import {
@@ -14,6 +14,7 @@ export function Header() {
   const navLinks = [
     { href: '/#ai-advisor', label: 'AI Advisor', icon: <BrainCircuit /> },
     { href: '/#hierarchy', label: 'Hierarchy', icon: <Network /> },
+    { href: '/saved-roles', label: 'Saved Roles', icon: <Star /> },
     { href: '/about', label: 'About', icon: <Info /> },
   ];
 
