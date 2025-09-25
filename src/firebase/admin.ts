@@ -1,10 +1,11 @@
 import admin from 'firebase-admin';
+import { credential } from 'firebase-admin';
 
 export function initializeAdminApp() {
   if (admin.apps.length > 0) {
     return;
   }
-  
+
   const projectId = process.env.GCLOUD_PROJECT || 'cs-compass';
 
   if (!projectId) {
@@ -12,6 +13,7 @@ export function initializeAdminApp() {
   }
 
   admin.initializeApp({
+    credential: credential.applicationDefault(),
     projectId: projectId,
   });
 }
