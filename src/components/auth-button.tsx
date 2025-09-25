@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -5,6 +6,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
+  type FirebaseError,
 } from 'firebase/auth';
 import Link from 'next/link';
 import { useUser } from '@/firebase/auth/use-user';
@@ -55,7 +57,10 @@ export function AuthButton() {
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
-      console.error('Error signing in with Google', error);
+      const firebaseError = error as FirebaseError;
+      if (firebaseError.code !== 'auth/popup-closed-by-user') {
+        console.error('Error signing in with Google', error);
+      }
     }
   };
 

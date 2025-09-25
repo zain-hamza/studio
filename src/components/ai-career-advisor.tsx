@@ -14,7 +14,7 @@ import {
   BookOpen,
   LogIn,
 } from 'lucide-react';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, type FirebaseError } from 'firebase/auth';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -74,12 +74,15 @@ export default function AICareerAdvisor() {
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
-      console.error('Error signing in with Google', error);
-      toast({
-        variant: 'destructive',
-        title: 'Sign-in Failed',
-        description: 'There was a problem signing you in. Please try again.',
-      });
+      const firebaseError = error as FirebaseError;
+      if (firebaseError.code !== 'auth/popup-closed-by-user') {
+          console.error('Error signing in with Google', error);
+          toast({
+            variant: 'destructive',
+            title: 'Sign-in Failed',
+            description: 'There was a problem signing you in. Please try again.',
+          });
+      }
     }
   };
 
