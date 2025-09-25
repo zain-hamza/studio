@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -11,7 +12,9 @@ import {
   GraduationCap,
   Sparkles,
   BookOpen,
+  LogIn,
 } from 'lucide-react';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -45,6 +48,8 @@ import { useToast } from '@/hooks/use-toast';
 import { getCareerAdviceAction } from '@/app/actions';
 import { type CareerSuggestionsOutput } from '@/ai/flows/ai-career-advisor';
 import { Badge } from './ui/badge';
+import { useUser } from '@/firebase/auth/use-user';
+import { useFirebaseApp } from '@/firebase';
 
 const formSchema = z.object({
   discipline: z.string().optional(),
@@ -60,6 +65,24 @@ export default function AICareerAdvisor() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<CareerSuggestionsOutput | null>(null);
   const { toast } = useToast();
+  const { user, loading: userLoading } = useUser();
+  const app = useFirebaseApp();
+  const auth = getAuth(app);
+
+  const handleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error('Error signing in with Google', error);
+      toast({
+        variant: 'destructive',
+        title: 'Sign-in Failed',
+        description: 'There was a problem signing you in. Please try again.',
+      });
+    }
+  };
+
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -108,80 +131,104 @@ export default function AICareerAdvisor() {
             </div>
           </div>
         </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <CardContent className="space-y-6">
-              <FormField
-                control={form.control}
-                name="discipline"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Select a CS Discipline</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      disabled={isLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="e.g., Software Engineering" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Any" className="font-semibold text-primary">Any Discipline</SelectItem>
-                        {csParentCategoriesData.map((parent) => (
-                          <SelectGroup key={parent.id}>
-                            <SelectLabel>{parent.name}</SelectLabel>
-                            {parent.fields.map((category) => (
-                              <SelectItem
-                                key={category.id}
-                                value={category.field}
-                              >
-                                {category.field}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="interests"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Your Interests & Skills</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., 'I love building beautiful user interfaces and thinking about user experience. I'm skilled in React and Figma.'"
-                        className="resize-none"
-                        {...field}
+        {user ? (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <CardContent className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="discipline"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Select a CS Discipline</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
                         disabled={isLoading}
-                        rows={4}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter>
-              <Button type="submit" disabled={isLoading} className="w-full">
-                {isLoading ? (
-                  <>
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="e.g., Software Engineering" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem
+                            value="Any"
+                            className="font-semibold text-primary"
+                          >
+                            Any Discipline
+                          </SelectItem>
+                          {csParentCategoriesData.map((parent) => (
+                            <SelectGroup key={parent.id}>
+                              <SelectLabel>{parent.name}</SelectLabel>
+                              {parent.fields.map((category) => (
+                                <SelectItem
+                                  key={category.id}
+                                  value={category.field}
+                                >
+                                  {category.field}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="interests"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Interests & Skills</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="e.g., 'I love building beautiful user interfaces and thinking about user experience. I'm skilled in React and Figma.'"
+                          className="resize-none"
+                          {...field}
+                          disabled={isLoading}
+                          rows={4}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+              <CardFooter>
+                <Button type="submit" disabled={isLoading} className="w-full">
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    'Get Career Advice'
+                  )}
+                </Button>
+              </CardFooter>
+            </form>
+          </Form>
+        ) : (
+          <>
+            <CardContent>
+              <div className="text-center text-muted-foreground p-4 border-2 border-dashed rounded-lg flex flex-col items-center gap-4">
+                <p>Please sign in to use the AI Career Advisor.</p>
+                <Button onClick={handleSignIn} disabled={userLoading}>
+                  {userLoading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Analyzing...
-                  </>
-                ) : (
-                  'Get Career Advice'
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </Form>
+                  ) : (
+                    <LogIn className="mr-2 h-4 w-4" />
+                  )}
+                  Sign In with Google
+                </Button>
+              </div>
+            </CardContent>
+             <CardFooter />
+          </>
+        )}
       </Card>
       <div className="flex items-center justify-center">
         {isLoading && (
@@ -194,20 +241,29 @@ export default function AICareerAdvisor() {
           <Card className="w-full bg-secondary shadow-lg animate-in fade-in-50">
             <CardHeader>
               <CardTitle className="font-headline text-2xl flex items-center gap-2">
-                <Sparkles className="text-primary"/> Your AI-Generated Career Plan
+                <Sparkles className="text-primary" /> Your AI-Generated Career
+                Plan
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <h3 className="font-semibold text-lg flex items-center gap-2 mb-2"><Briefcase className="h-5 w-5"/>Suggested Roles</h3>
+                <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                  <Briefcase className="h-5 w-5" />
+                  Suggested Roles
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {result.suggestedRoles.map((role, i) => (
-                    <Badge key={i} variant="default">{role}</Badge>
+                    <Badge key={i} variant="default">
+                      {role}
+                    </Badge>
                   ))}
                 </div>
               </div>
               <div>
-                <h3 className="font-semibold text-lg flex items-center gap-2 mb-2"><GraduationCap className="h-5 w-5"/>Suggested Courses/Programs</h3>
+                <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                  <GraduationCap className="h-5 w-5" />
+                  Suggested Courses/Programs
+                </h3>
                 <ul className="list-disc list-inside space-y-1">
                   {result.suggestedCourses.map((course, i) => (
                     <li key={i}>{course}</li>
@@ -215,10 +271,15 @@ export default function AICareerAdvisor() {
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold text-lg flex items-center gap-2 mb-2"><BookOpen className="h-5 w-5"/>Potential Skills to Develop</h3>
-                 <div className="flex flex-wrap gap-2">
+                <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                  <BookOpen className="h-5 w-5" />
+                  Potential Skills to Develop
+                </h3>
+                <div className="flex flex-wrap gap-2">
                   {result.potentialSkills.map((skill, i) => (
-                    <Badge key={i} variant="outline">{skill}</Badge>
+                    <Badge key={i} variant="outline">
+                      {skill}
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -226,9 +287,9 @@ export default function AICareerAdvisor() {
           </Card>
         )}
         {!isLoading && !result && (
-            <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
-                <p>Your personalized results will appear here.</p>
-            </div>
+          <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
+            <p>Your personalized results will appear here.</p>
+          </div>
         )}
       </div>
     </div>
