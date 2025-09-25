@@ -1,66 +1,68 @@
+/**
+ * @file Firestore Security Rules
+ * @core_philosophy This ruleset enforces a strict user-ownership model for profile data and saved roles.
+ * @data_structure User profiles are stored in `/users/{userId}`. Each user can save career roles under `/users/{userId}/savedRoles/{roleId}`.
+ * @key_security_decisions Users can only access their own profile and saved roles. Listing of all users is disallowed. Data validation is relaxed to allow for prototyping.
+ * @denormalization No specific denormalization is used, but the rules assume that saved roles are always accessed in the context of a specific user.
+ * @structural_segregation User profiles and saved roles are kept separate to clearly define access boundaries.
+ */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description This ruleset enforces a strict user-ownership model for profile data and saved roles.
-     * @dataStructure All user data is nested under /users/{userId}, with profile information directly under this path and saved roles in the /users/{userId}/savedRoles/{roleId} subcollection.
-     * @keySecurityDecisions Users can only read and write their own profile data and saved roles. There is no administrative override. Listing of all users is disallowed.
-     * @denormalizationForAuthorization N/A - ownership is derived from the path.
-     * @structuralSegregation User profiles and saved roles are stored in separate collections, ensuring clear ownership and access control.
-     */
-
-    // Helper function to check if the request is authenticated
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    // Helper function to check if the request is made by the owner of the resource
-    function isOwner(userId) {
-      return request.auth.uid == userId;
-    }
-
-    // Helper function to check if the user is the existing owner of a resource.
-    function isExistingOwner(userId) {
-      return isOwner(userId) && resource.data != null;
-    }
-
-    /**
      * @description Controls access to user profile information.
      * @path /users/{userId}
-     * @allow (create) User with ID 'user123' can create their profile.
-     * @allow (get) User with ID 'user123' can retrieve their profile.
-     * @allow (update) User with ID 'user123' can update their profile.
-     * @allow (delete) User with ID 'user123' can delete their profile.
-     * @deny (create) User with ID 'user456' cannot create a profile for user 'user123'.
-     * @principle Enforces document ownership for writes, restricts access to a user's own data tree, and validates relational integrity between documents.
+     * @allow (create) User with UID 'user123' can create their profile if request.auth.uid == 'user123'.
+     * @allow (get) User with UID 'user123' can read their own profile.
+     * @allow (update) User with UID 'user123' can update their own profile.
+     * @allow (delete) User with UID 'user123' can delete their own profile.
+     * @deny (create) User with UID 'user123' cannot create a profile with a different userId in the path.
+     * @deny (get) User with UID 'user456' cannot read the profile of user 'user123'.
+     * @deny (update) User with UID 'user456' cannot update the profile of user 'user123'.
+     * @deny (delete) User with UID 'user456' cannot delete the profile of user 'user123'.
+     * @principle Enforces document ownership for profile data.
      */
     match /users/{userId} {
       allow get: if isOwner(userId);
       allow list: if false;
-
-      allow create: if isOwner(userId) && request.auth.token.email == request.resource.data.email;
-      allow update: if isExistingOwner(userId) && request.auth.token.email == request.resource.data.email;
+      allow create: if isOwner(userId) && request.resource.data.email == request.auth.token.email;
+      allow update: if isExistingOwner(userId) && request.resource.data.email == resource.data.email;
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Controls access to saved roles for a user.
+     * @description Controls access to saved career roles for a user.
      * @path /users/{userId}/savedRoles/{roleId}
-     * @allow (create) User with ID 'user123' can create a saved role in their own profile.
-     * @allow (get) User with ID 'user123' can retrieve a saved role from their own profile.
-     * @allow (update) User with ID 'user123' can update a saved role in their own profile.
-     * @allow (delete) User with ID 'user123' can delete a saved role from their own profile.
-     * @deny (create) User with ID 'user456' cannot create a saved role for user 'user123'.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data.
+     * @allow (create) User with UID 'user123' can create a saved role under their profile.
+     * @allow (get) User with UID 'user123' can read a saved role under their profile.
+     * @allow (update) User with UID 'user123' can update a saved role under their profile.
+     * @allow (delete) User with UID 'user123' can delete a saved role under their profile.
+     * @deny (create) User with UID 'user456' cannot create a saved role under user 'user123'.
+     * @deny (get) User with UID 'user456' cannot read a saved role under user 'user123'.
+     * @deny (update) User with UID 'user456' cannot update a saved role under user 'user123'.
+     * @deny (delete) User with UID 'user456' cannot delete a saved role under user 'user123'.
+     * @principle Restricts access to a user's own saved roles.
      */
     match /users/{userId}/savedRoles/{roleId} {
       allow get: if isOwner(userId);
-      allow list: if false;
-
+      allow list: if isOwner(userId);
       allow create: if isOwner(userId);
       allow update: if isExistingOwner(userId);
       allow delete: if isExistingOwner(userId);
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isExistingOwner(userId) {
+        return isSignedIn() && isOwner(userId) && resource != null;
     }
   }
 }
