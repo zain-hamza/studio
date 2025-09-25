@@ -4,7 +4,7 @@ import { type DocumentData } from 'firebase/firestore';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from './ui/button';
-import { unsaveRoleAction } from '@/app/actions';
+import { unsaveRoleAction } from '@/firebase/actions';
 import { useUser } from '@/firebase/auth/use-user';
 import { useToast } from '@/hooks/use-toast';
 import { Trash2, Briefcase, GraduationCap, Wrench } from 'lucide-react';

@@ -17,7 +17,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { generateDayInTheLifeAction, saveRoleAction, unsaveRoleAction } from '@/app/actions';
+import { generateDayInTheLifeAction } from '@/app/actions';
+import { saveRoleAction, unsaveRoleAction } from '@/firebase/actions';
 import { useToast } from '@/hooks/use-toast';
 import { HighlightText } from './highlight-text';
 import { useUser } from '@/firebase/auth/use-user';
@@ -100,7 +101,6 @@ export function FieldCard({ subfield, searchTerm }: FieldCardProps) {
         await unsaveRoleAction({ userId: user.uid, roleId: savedRoles[role.name] });
         toast({ title: 'Role Unsaved', description: `${role.name} removed from your list.`});
       } else {
-        // Create a plain object without the 'icon' component
         const plainSubfield = {
           name: subfield.name,
           skills: subfield.skills,
